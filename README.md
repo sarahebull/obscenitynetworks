@@ -88,5 +88,5 @@ CC-BY 4.0
 
 ## Citation
 
-Bull, Sarah. 2026. Obscenity Trade Connections Network (c. 1800–1900). https://github.com/sarahebull/obscenity_trade_networks
+Bull, Sarah. 2026. Obscenity Trade Connections Network (c. 1800–1900). https://github.com/sarahebull/obscenitynetworks
 
