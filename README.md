@@ -72,15 +72,7 @@ Features:
 
 ## Sources
 
-The network draws on the following sources:
-
-- Bull, Sarah. *Advertising Pornography, 1822–1870* (forthcoming dataset package)
-- Bull, Sarah, and Cameron Wheeler. *Obscenity Trials, 1800–1900* (in-progress dataset package)
-- Bull, Sarah. *Selling Sexual Knowledge: Medical Publishing and Obscenity in Victorian Britain* (Cambridge University Press, 2025)
-- Colligan, Colette. "Digital Discovery and Fake Imprints: Unmasking Turn-of-the-Century Pornographers in Paris." *Book History* 22, no. 1 (2019): 249–279.
-- McCalman, Iain, and Maureen Mee. *An Oxford Companion to the Romantic Age* (Oxford University Press, 2001).
-- Mendes, Peter. *Clandestine Erotic Fiction in English 1800–1930: A Bibliographical Study*. Routledge, 2016.
-- Perry, Sheryl. The Eroticabibliophile. <https://www.eroticabibliophile.com/>
+See Obscenity_Trade_Networks_Sources.csv for a full list.
 
 ## Licence
 
