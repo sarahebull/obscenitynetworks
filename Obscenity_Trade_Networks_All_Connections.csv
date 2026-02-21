@@ -61,7 +61,6 @@ Paul Ramel,Charles Carrington,Business connection,Business,Indirect connection v
 Poulet-Malassis,William Lazenby,Business connection,Business,Arranged printing for Lazenby in 1875,Mendes
 Roeloffzen & Hubner,Leonard Smithers,Business connection,Business,Amsterdam printers who printed works for Smithers,Mendes
 Selene Subtil,Charles Hirsch,Employer/employee,Business,"Hirsch managed Subtil's shop at 4 Prince's-buildings, Coventry-street, and later purchased it from her",Obscenity Trials
-Selene Subtil,Charles Hirsch,Business succession,Business,"Hirsch purchased 4 Prince's-buildings, Coventry-street shop from Subtil",Obscenity Trials
 Selene Subtil,Joseph de Matteo,Business connection,Business,Subtil took over Victor Hubert's shop at Prince's-buildings (1890); Hubert had been De Matteo's supplier (1887). Part of the same French bookselling network in Soho,Obscenity Trials/Mendes
 Theophilus Sebastian Judge,William Dugdale,Business succession,Business,T.S. Judge was 'the son in law and successor of the late Dugdale'; took over 44 Wych Street and 2 Holywell-street,Obscenity Trials
 Thomas Paine Carlile,Frederick Glover?,Business partnership,Business,Ran Glover and Ward's Repository together at 103 Strand (1845),Advertising Pornography
@@ -117,7 +116,6 @@ James Aitken,Ann Aitken,Husband/wife,Family,"Ann described as ""the wife of Geor
 Jessie Judge,William John Dugdale,Siblings,Family,Jessie was William Dugdale's daughter; W.J. Dugdale was his son,Inferred
 John Duncombe,Edward Duncombe,Brothers,Family,"Both publisher-booksellers; John at 19 Little Queen Street, Edward at various addresses including Middle Row, Holborn and 78 Long Acre","Obscenity Trials, Advertising Pornography"
 John Lambert Dugdale,Frances Thornhill,Uncle/niece,Family,"John Lambert was brother of William Dugdale, who was father of Frances",Inferred
-John Lambert Dugdale,William John Dugdale,Uncle/nephew,Family,"John Lambert left his estate to his nephew William John Dugdale (per London Standard, 12 Aug 1856)",Perry
 Joseph Clarke,Henry Clarke,Father/son,Family,"Henry described as ""his son, a young man about twenty five""; both at Featherstone-street, City Road (1820)",Obscenity Trials
 Joseph Green,Susan Green,Husband/wife,Family,"Susan described as ""wife of Joseph Green, who keeps a print-shop""; both at Old-Round-court, Strand (1816)",Obscenity Trials
 Joseph Groves,Richard Groves,Brothers,Family,"Joseph described as 'brother of Richard Groves'; Joseph at 34 Holywell, Richard at 33 Holywell (1869-1870)",Obscenity Trials
@@ -166,7 +164,6 @@ Jessie Judge,Theophilus Sebastian Judge,Business partners,Other,Jessie appears t
 John Higdon Thornhill,Theophilus Sebastian Judge,Brothers-in-law,Other,"Both married daughters of William Dugdale: Thornhill married Frances, Judge married Jessie",Advertising Pornography
 John Lambert Dugdale,John Higdon Thornhill,Related by marriage,Other,J.L. Dugdale was William's brother; Thornhill married William's daughter Frances,Inferred
 John Lambert Dugdale,Theophilus Sebastian Judge,Related by marriage,Other,J.L. Dugdale was William Dugdale's brother; T.S. Judge married William's daughter Jessie,Inferred
-John Lambert Dugdale,William John Dugdale,Uncle/nephew ,Other,John was William Dugdale's brother; W.J. was William's son,Inferred
 Joseph Jenkinson,William Jenkinson,Relatives (probable),Other,Both prosecuted 1834; Joseph 'the keeper of a stationer's shop in Baldwin's-Gardens',Obscenity Trials
 Mary Dresch,Edwin Dresch Jr.,Mother/son (probable),Other,Dresch and Mary Dresch probable spouses (1860); Edwin Dresch Jr. prosecuted 1871,Inferred
 Michael Saunders,William Saunders,Relatives (probable),Other,"Same surname, both work in Holywell Street/Wych Street area (1860-1872)",Obscenity Trials
@@ -190,7 +187,7 @@ Andrew White,Herbert Constantine Judge,Shared address,Shared Address,"32 Holywel
 Andrew White,Samuel Tyler,Shared address,Shared Address,"31 Holywell Street: Andrew White (1850), Samuel Tyler (1870)",Obscenity Trials
 Anna Sinclair,Ella Sinclair Roland,Relatives (probable),Shared Address,Both in Cambridge; lived with George Ferdinand Springmuhl von Weissenfeld and arrested together in obscenity sweep.Same surname suggests family connection (1902),Obscenity Trials
 Charles Caslake,Charles Newbold,Shared address,Shared Address,34 Holywell Street: both 1882,Obscenity Trials
-Charles Newbold,William Burton,Shared address,Shared Address,"34 Holywell Street: William Burton (1872, 1874), Charles Newbold (1882, 1892)",Obscenity Trials
+Charles Newbold,Andrew White,Shared address,Shared Address,"34 Holywell Street: Andrew White (alias William Burton) (1872, 1874), Charles Newbold (1882, 1892)",Obscenity Trials
 Charles Stevenson,Henry May,Shared address,Shared Address,"38 Holywell Street, both in 1860 — ""two shops in one house""",Obscenity Trials
 Dresch,Mary Dresch,Shared address,Shared Address,"15 Holywell Street, both 1860",Obscenity Trials
 Edward Duncombe,Ralph Jackson,Shared address,Shared Address,Both had shops at 78 Long Acre,Advertising Pornography
@@ -215,7 +212,7 @@ John Duncombe,Edward Duncombe,Shared address,Shared Address,"Middle Row, Holborn
 John Harrison,Michael Saunders,Shared address,Shared Address,"49 Wych Street: Harrison (1869, 1872, 1875), Michael Saunders (1872)",Obscenity Trials
 John Harrison,William Saunders,Shared address,Shared Address,"49 Wych Street: Harrison (1869), Saunders (1870)",Obscenity Trials
 John Higdon Thornhill,William Dugdale,Shared address,Shared Address,53 Holywell Street (Thornhill) near other Dugdale premises on Holywell Street,Advertising Pornography
-Joseph Groves,William Burton,Shared address,Shared Address,"34 Holywell Street: Joseph Groves (1870), William Burton (1872, 1874); NB: William Burton was an alias of Andrew White (confirmed in 1874 trial)",Obscenity Trials
+Joseph Groves,Andrew White,Shared address,Shared Address,"34 Holywell Street: Joseph Groves (1870), William Burton (1872, 1874); William Burton was an alias of Andrew White (confirmed in 1874 trial)",Obscenity Trials
 Joseph Groves,William Henry Payne,Shared address,Shared Address,"34 Holywell Street: Joseph Groves (1870), William Henry Payne (1871)",Obscenity Trials
 Martin Joyner,Alfred Joyner,Shared address,Shared Address,"29 St. Martin's-Lane, Leicester-square: both 1860",Obscenity Trials
 Martin Joyner,John Piper,Shared address,Shared Address,29 St. Martin's-Lane: Joyner and Piper (1859-1860) — Piper was 'shopman' there,Obscenity Trials
@@ -234,17 +231,17 @@ Thomas Blacketer,Jane WAdvertising Pornographyworth,Shared address,Shared Addres
 Victor Hubert,Charles Hirsch,Shared address,Shared Address,"Prince's-buildings, Coventry-street: Hubert (1887), then Hirsch (1898) — same shop, with Subtil in between",Obscenity Trials
 Victor Hubert,Selene Subtil,Shared address,Shared Address,"Prince's-buildings, Coventry-street: Hubert (1887), then Subtil (1890) — same shop",Obscenity Trials
 Warnforn Piper,Walter Warnforn Piper,Shared address,Shared Address,"Musjid-road, Battersea: both 1887",Obscenity Trials
-William Burton,Charles Caslake,Shared address,Shared Address,"34 Holywell Street: William Burton (1872, 1874), Charles Caslake (1882); NB: William Burton was an alias of Andrew White (confirmed in 1874 trial)",Obscenity Trials
+Andrew White,Charles Caslake,Shared address,Shared Address,"34 Holywell Street: William Burton (1872, 1874), Charles Caslake (1882); William Burton was an alias of Andrew White (confirmed in 1874 trial)",Obscenity Trials
 William Dugdale,James Millson,Shared address,Shared Address,44 Wych Street and 102 Old-street: both 1868,Obscenity Trials
 William Dugdale,John Lambert Dugdale,Shared address,Shared Address,"Both at Holywell Street: William at 16, 37, etc.; John Lambert at 50 Holywell Street","Obscenity Trials, Advertising Pornography"
 William Dugdale,Theophilus Sebastian Judge,Shared address,Shared Address,"44 Wych Street: Dugdale (1868), then Judge (1869) as successor",Obscenity Trials
 William Dugdale,William John Dugdale,Shared address,Shared Address,William at 37 Holywell Street; W.J. Dugdale at 35 Holywell Street — adjacent premises,"Obscenity Trials, Advertising Pornography"
 William F. Howe?,Elizabeth Graham,Shared address,Shared Address,"195 Wellington-terrace, Waterloo-road: both tried 1858","Obscenity Trials, Advertising Pornography"
 William Fagnoit,Maria Fagnoit,Shared address,Shared Address,"No. 1, Vinegar-yard, Drury-lane: both 1847",Obscenity Trials
-William Lazenby,William Burton,Shared address?,Shared Address,"Per Mendes, Burton (alias Andrew White) was at 142 New Kent Road (1880); Lazenby's 1886 trial notes 65 volumes of French books found at 'an address in New Kent-Road'. Lazenby may have used Burton's former premises","Mendes, Obscenity Trials"
+William Lazenby,Andrew White,Shared address?,Shared Address,"Per Mendes,  Andrew White (alias William Burton) was at 142 New Kent Road (1880); Lazenby's 1886 trial notes 65 volumes of French books found at 'an address in New Kent-Road'. Lazenby may have used Burton's former premises","Mendes, Obscenity Trials"
 William Matthews,Joseph Matthews,Shared address,Shared Address,Lower Arcade: all three Matthews family members (1889),Obscenity Trials
 William Saunders,Michael Saunders,Shared address,Shared Address,"49 Wych Street / Holywell Street: William (1870), Michael (1872)",Obscenity Trials
 William Strange,William Edwards,Shared address,Shared Address,Both at 183 Fleet Street — Strange printed Paul Pry there in 1857; same as earlier occupant,Advertising Pornography
 William Winn,Charles Newbold,Shared address,Shared Address,"34 Holywell Street: William Winn (1850s), Charles Newbold (1882, 1892)",Obscenity Trials
 William Winn,Joseph Groves,Shared address,Shared Address,"34 Holywell Street: William Winn (1850, 1857), Joseph Groves (1870)",Obscenity Trials
-William Winn,William Burton,Shared address,Shared Address,"34 Holywell Street: William Winn (1850, 1857), William Burton (1872, 1874)",Obscenity Trials
+William Winn,Andrew White,Shared address,Shared Address,"34 Holywell Street: William Winn (1850, 1857), Andrew White (as William Burton) (1872, 1874)",Obscenity Trials
