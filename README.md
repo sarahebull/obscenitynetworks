@@ -20,6 +20,8 @@ This dataset maps interpersonal connections among individuals involved in the pr
 
 Key clusters in the network include the Dugdale family and their successors; Edward Avery and the Nichols-Smithers "Erotika Biblion Society" circle; the Belgian publisher Auguste Brancart and his Paris agents; and the interconnected continental publishers Aimé Duringe, Jules Eugène Gauché, and Charles Hirsch. The goal is to make visible the social infrastructure of a trade that was often clandestine.
 
+The interface was created with Claude Code.
+
 ## Files
 
 | File | Description |
@@ -80,5 +82,5 @@ CC-BY 4.0
 
 ## Citation
 
-Bull, Sarah. 2026. Obscenity Trade Connections Network (c. 1800–1900). https://github.com/sarahebull/obscenitynetworks
+Bull, Sarah. 2026. Obscenity Trade Networks (c.1800-1900). https://github.com/sarahebull/obscenitynetworks
 
