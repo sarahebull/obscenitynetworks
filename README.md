@@ -27,7 +27,7 @@ The visualization was created with Claude Code.
 | File | Description |
 |------|-------------|
 | `Obscenity_Trade_Networks.html` | Self-contained interactive network visualization (D3.js). Open directly in a browser. |
-| `Obscenity_Trade_Networks_All_Connections.csv` | All 249 connections with descriptions and sources. |
+| `Obscenity_Trade_Networks_All_Connections.csv` | All 246 connections with descriptions and sources. |
 | `Obscenity_Trade_Networks_Sources.csv` | Full citations for all sources that inform the connections. |
 | `Obscenity_Trade_Networks_Summary.csv` | Aggregate statistics for the network. |
 | `README.md` | This file. |
@@ -36,7 +36,7 @@ The visualization was created with Claude Code.
 
 The dataset is distributed as three CSV files.
 
-**Obscenity_Trade_Networks_All_Connections.csv** contains 249 records with the following variables:
+**Obscenity_Trade_Networks_All_Connections.csv** contains 246 records with the following variables:
 
 | Variable | Type | Description |
 |----------|------|-------------|
