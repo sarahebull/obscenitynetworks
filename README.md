@@ -16,7 +16,7 @@ sarah.bull@torontomu.ca
 
 ## About the Project
 
-This dataset maps interpersonal connections among individuals involved in the production, distribution, and sale of pornography in nineteenth- and early twentieth-century Europe, or who were defendants in obscenity trials in Britain during that period. It currently documents 246 connections among 175 individuals, drawing on two dataset-creation projects forthcoming or in progress that Bull is leading as well as published research by several other scholars. It is an evolving project and is subject to updates as new information becomes available.
+This dataset maps interpersonal connections among individuals involved in the production, distribution, and sale of pornography in nineteenth- and early twentieth-century Europe, or who were defendants in obscenity trials in Britain during that period. It currently documents 248 connections among 175 individuals, drawing on two dataset-creation projects forthcoming or in progress that Bull is leading as well as published research by several other scholars. It is an evolving project and is subject to updates as new information becomes available.
 
 Key clusters in the network include the Dugdale family and their successors; Edward Avery and the Nichols-Smithers "Erotika Biblion Society" circle; the Belgian publisher Auguste Brancart and his Paris agents; and the interconnected continental publishers Aimé Duringe, Jules Eugène Gauché, and Charles Hirsch. The aim of the project is to make visible the social/business infrastructure of a trade that was often clandestine.
 
@@ -27,7 +27,7 @@ The visualization was created with Claude Code.
 | File | Description |
 |------|-------------|
 | `Obscenity_Trade_Networks.html` | Self-contained interactive network visualization (D3.js). Open directly in a browser. |
-| `Obscenity_Trade_Networks_All_Connections.csv` | All 246 connections with descriptions and sources. |
+| `Obscenity_Trade_Networks_All_Connections.csv` | All 248 connections with descriptions and sources. |
 | `Obscenity_Trade_Networks_Sources.csv` | Full citations for all sources that inform the connections. |
 | `Obscenity_Trade_Networks_Summary.csv` | Aggregate statistics for the network. |
 | `README.md` | This file. |
@@ -36,7 +36,7 @@ The visualization was created with Claude Code.
 
 The dataset is distributed as three CSV files.
 
-**Obscenity_Trade_Networks_All_Connections.csv** contains 246 records with the following variables:
+**Obscenity_Trade_Networks_All_Connections.csv** contains 248 records with the following variables:
 
 | Variable | Type | Description |
 |----------|------|-------------|
