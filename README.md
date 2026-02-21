@@ -16,7 +16,7 @@ sarah.bull@torontomu.ca
 
 ## About the Project
 
-This dataset maps interpersonal connections among individuals involved in the production, distribution, and sale of pornography in nineteenth- and early twentieth-century Europe, or who were defendants in obscenity trials in Britain during that period. It currently documents 249 connections among 176 individuals, drawing on two dataset-creation projects forthcoming or in progress that Bull is leading as well as published research by several other scholars. It is an evolving project and is subject to updates as new information becomes available.
+This dataset maps interpersonal connections among individuals involved in the production, distribution, and sale of pornography in nineteenth- and early twentieth-century Europe, or who were defendants in obscenity trials in Britain during that period. It currently documents 246 connections among 175 individuals, drawing on two dataset-creation projects forthcoming or in progress that Bull is leading as well as published research by several other scholars. It is an evolving project and is subject to updates as new information becomes available.
 
 Key clusters in the network include the Dugdale family and their successors; Edward Avery and the Nichols-Smithers "Erotika Biblion Society" circle; the Belgian publisher Auguste Brancart and his Paris agents; and the interconnected continental publishers Aimé Duringe, Jules Eugène Gauché, and Charles Hirsch. The aim of the project is to make visible the social/business infrastructure of a trade that was often clandestine.
 
