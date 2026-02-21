@@ -43,7 +43,7 @@ The dataset is distributed as three CSV files.
 | `Person 1` | string | First individual in the connection |
 | `Person 2` | string | Second individual in the connection |
 | `Connection Type` | string | Nature of the relationship (e.g., "Business connection," "Husband/wife," "Co-defendants," "Shared address") |
-| `Category` | string | One of five groupings: Business (75), Shared Address (64), Family (51), Other (36), Co-defendants (23) |
+| `Category` | string | One of five groupings: Business (87), Shared Address (64), Family (70), Other (1), Co-defendants (26) |
 | `Details` | string | Prose description of the connection with supporting evidence |
 | `Source` | string | Dataset or publication from which the connection was drawn |
 
