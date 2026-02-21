@@ -20,7 +20,7 @@ This dataset maps interpersonal connections among individuals involved in the pr
 
 Key clusters in the network include the Dugdale family and their successors; Edward Avery and the Nichols-Smithers "Erotika Biblion Society" circle; the Belgian publisher Auguste Brancart and his Paris agents; and the interconnected continental publishers Aimé Duringe, Jules Eugène Gauché, and Charles Hirsch. The aim of the project is to make visible the social/business infrastructure of a trade that was often clandestine.
 
-The interface was created with Claude Code.
+The visualization was created with Claude Code.
 
 ## Files
 
