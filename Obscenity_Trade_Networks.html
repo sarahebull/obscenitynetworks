@@ -140,6 +140,39 @@ svg { width: 100%; height: 100%; background: #ACCAB2; }
   color: #872a0f; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;
 }
 .zoom-btn:hover { background: #e0dbd0; border-color: #b0a898; }
+
+#timeline-control { margin-top: 12px; }
+#timeline-control label { font-size: 9px; color: #3a5a48; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 6px; font-weight: 500; }
+#range-slider-container {
+  position: relative; width: 100%; height: 24px; margin-top: 4px;
+}
+#range-track {
+  position: absolute; top: 10px; left: 0; right: 0; height: 4px;
+  background: rgba(255,255,255,0.4); border-radius: 2px;
+}
+#range-fill {
+  position: absolute; top: 10px; height: 4px; background: #872a0f; border-radius: 2px;
+  opacity: 0.6;
+}
+.range-thumb {
+  position: absolute; top: 4px; width: 16px; height: 16px; border-radius: 50%;
+  background: #872a0f; border: 2px solid #f2efe8; cursor: pointer; z-index: 2;
+  transform: translateX(-8px); box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: box-shadow 0.15s;
+}
+.range-thumb:hover, .range-thumb:active { box-shadow: 0 0 0 4px rgba(135,42,15,0.15); }
+#timeline-label {
+  font-size: 11px; color: #2c2c2c; font-weight: 600; margin-top: 4px;
+  font-family: Futura, 'Jost', sans-serif; text-align: center;
+}
+#timeline-ticks {
+  display: flex; justify-content: space-between; font-size: 8px; color: #5a7a68;
+  margin-top: 2px; font-family: Futura, 'Jost', sans-serif;
+}
+#timeline-reset {
+  display: inline-block; margin-left: 6px; font-size: 9px; color: #872a0f;
+  cursor: pointer; text-decoration: underline; font-weight: 400;
+}
 </style>
 </head>
 <body>
@@ -161,6 +194,19 @@ svg { width: 100%; height: 100%; background: #ACCAB2; }
         <button class="filter-btn active" data-cat="Co-defendants">Co-defendants</button>
         <button class="filter-btn active" data-cat="Shared Address">Shared Address</button>
         <button class="filter-btn active" data-cat="Other">Other</button>
+      </div>
+      <div id="timeline-control">
+        <label>Time period</label>
+        <div id="range-slider-container">
+          <div id="range-track"></div>
+          <div id="range-fill"></div>
+          <div class="range-thumb" id="thumb-min"></div>
+          <div class="range-thumb" id="thumb-max"></div>
+        </div>
+        <div id="timeline-label">All periods (1800–1910) <span id="timeline-reset" style="display:none">reset</span></div>
+        <div id="timeline-ticks">
+          <span>1800</span><span>1830</span><span>1860</span><span>1890</span><span>1910</span>
+        </div>
       </div>
     </div>
     <div id="info-panel">
@@ -201,49 +247,49 @@ const graphData = {
   "nodes": [
     {
       "id": 0,
-      "name": "\"Andrew White\"",
-      "connections": 1,
-      "sources": "Obscenity Trials"
-    },
-    {
-      "id": 1,
       "name": "Adolphus Eugene Judge",
       "connections": 4,
       "sources": "Inferred, Obscenity Trials, Perry"
     },
     {
-      "id": 2,
+      "id": 1,
       "name": "Adolphus Henry Judge",
       "connections": 8,
       "sources": "Advertising Pornography, Inferred, Obscenity Trials, Obscenity Trials, Perry"
     },
     {
-      "id": 3,
-      "name": "Aim\u00e9 Duringe",
+      "id": 2,
+      "name": "Aimé Duringe",
       "connections": 8,
       "sources": "Colligan (2019), Colligan (2019), Mendes"
     },
     {
-      "id": 4,
+      "id": 3,
       "name": "Alexis Christiaens",
       "connections": 2,
       "sources": "Mendes"
     },
     {
-      "id": 5,
+      "id": 4,
       "name": "Alfred Cooper",
       "connections": 2,
       "sources": "Mendes, Obscenity Trials"
     },
     {
-      "id": 6,
+      "id": 5,
       "name": "Alfred Joyner",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 7,
+      "id": 6,
       "name": "Alfred Kingston",
+      "connections": 1,
+      "sources": "Obscenity Trials"
+    },
+    {
+      "id": 7,
+      "name": "Alice Maid Taylor",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
@@ -256,12 +302,12 @@ const graphData = {
     {
       "id": 9,
       "name": "Andrew White",
-      "connections": 6,
+      "connections": 4,
       "sources": "Mendes, Obscenity Trials, Obscenity Trials"
     },
     {
       "id": 10,
-      "name": "Ang\u00e9lina Leboucher",
+      "name": "Angélina Leboucher",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
@@ -285,990 +331,1086 @@ const graphData = {
     },
     {
       "id": 14,
-      "name": "Arthur John Partidge",
+      "name": "Antoine Porterié",
       "connections": 2,
-      "sources": "Obscenity Trials, Obscenity Trials, Mendes"
+      "sources": "Catalogue des Ecris"
     },
     {
       "id": 15,
+      "name": "Arthur John Partidge",
+      "connections": 1,
+      "sources": "Obscenity Trials"
+    },
+    {
+      "id": 16,
       "name": "Arthur Reader",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 16,
+      "id": 17,
       "name": "Auguste Brancart",
       "connections": 7,
       "sources": "Colligan (2019), Mendes, Mendes, Obscenity Trials"
     },
     {
-      "id": 17,
+      "id": 18,
+      "name": "Baptiste Leloup",
+      "connections": 1,
+      "sources": "Drujon"
+    },
+    {
+      "id": 19,
+      "name": "Becquet",
+      "connections": 1,
+      "sources": ""
+    },
+    {
+      "id": 20,
       "name": "Benjamin Hulles",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 18,
+      "id": 21,
       "name": "Benjamin James",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 19,
+      "id": 22,
+      "name": "Bertrand Porterié",
+      "connections": 4,
+      "sources": "Catalogue des Ecris"
+    },
+    {
+      "id": 23,
       "name": "Binger Brothers",
       "connections": 2,
       "sources": "Mendes"
     },
     {
-      "id": 20,
+      "id": 24,
       "name": "Catherine Hodgson",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 21,
+      "id": 25,
       "name": "Charles Carrington",
       "connections": 6,
       "sources": "Colligan (2014), Obscenity Trials, Mendes, Mendes, Obscenity Trials"
     },
     {
-      "id": 22,
+      "id": 26,
       "name": "Charles Caslake",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 23,
+      "id": 27,
       "name": "Charles Grieves",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 24,
+      "id": 28,
       "name": "Charles Hirsch",
       "connections": 16,
       "sources": "Colligan (2019), Mendes, Mendes, Obscenity Trials, Obscenity Trials"
     },
     {
-      "id": 25,
+      "id": 29,
       "name": "Charles Maurice Coleman",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 26,
+      "id": 30,
       "name": "Charles Newbold",
       "connections": 5,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 27,
+      "id": 31,
       "name": "Charles Perry",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 28,
+      "id": 32,
       "name": "Charles Reeves",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 29,
+      "id": 33,
       "name": "Charles Renaudie",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 30,
+      "id": 34,
       "name": "Charles Stevenson",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 31,
+      "id": 35,
       "name": "Charles Unsinger",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 32,
+      "id": 36,
+      "name": "Constantin Delarue",
+      "connections": 2,
+      "sources": "BNF Retronews 001"
+    },
+    {
+      "id": 37,
       "name": "Dresch",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 33,
+      "id": 38,
       "name": "Durvand",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 34,
+      "id": 39,
       "name": "Edouard Maheu",
       "connections": 2,
       "sources": "Mendes"
     },
     {
-      "id": 35,
+      "id": 40,
       "name": "Edward Avery",
       "connections": 13,
       "sources": "Mendes, Mendes, Obscenity Trials"
     },
     {
-      "id": 36,
+      "id": 41,
       "name": "Edward Duncombe",
-      "connections": 5,
-      "sources": "Advertising Pornography, Obscenity Trials, Advertising Pornography"
+      "connections": 7,
+      "sources": "Advertising Pornography, Obscenity Trials, Advertising Pornography, Shared Address"
     },
     {
-      "id": 37,
+      "id": 42,
       "name": "Edward Dyer",
       "connections": 1,
       "sources": "Advertising Pornography, Obscenity Trials"
     },
     {
-      "id": 38,
+      "id": 43,
       "name": "Edward Henry Coleman",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 39,
+      "id": 44,
       "name": "Edward Morris",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 40,
+      "id": 45,
       "name": "Edwin Dresch",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 41,
+      "id": 46,
       "name": "Edwin Dresch Jr.",
-      "connections": 3,
+      "connections": 7,
       "sources": "Inferred, Obscenity Trials"
     },
     {
-      "id": 42,
+      "id": 47,
       "name": "Elizabeth Graham",
       "connections": 2,
       "sources": "Obscenity Trials, Obscenity Trials, Advertising Pornography"
     },
     {
-      "id": 43,
+      "id": 48,
       "name": "Ella Sinclair Roland",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 44,
+      "id": 49,
       "name": "Ellen Bennett Williams",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 45,
+      "id": 50,
       "name": "Emile Kapp",
       "connections": 2,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 46,
+      "id": 51,
       "name": "Emilie Christiaens",
       "connections": 2,
       "sources": "Mendes"
     },
     {
-      "id": 47,
+      "id": 52,
       "name": "Eugene Alfred Judge",
-      "connections": 6,
+      "connections": 5,
       "sources": "Inferred, Obscenity Trials"
     },
     {
-      "id": 48,
+      "id": 53,
       "name": "Eugene Gorsky",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 49,
-      "name": "Eug\u00e9nie Marie Jamain",
+      "id": 54,
+      "name": "Eugène Lalouette",
+      "connections": 2,
+      "sources": "Colligan (2024)"
+    },
+    {
+      "id": 55,
+      "name": "Eugénie Marie Jamain",
       "connections": 2,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 50,
+      "id": 56,
+      "name": "Fatout",
+      "connections": 1,
+      "sources": "BNF Retronews 003"
+    },
+    {
+      "id": 57,
       "name": "Felix Danjer",
       "connections": 1,
       "sources": "Advertising Pornography"
     },
     {
-      "id": 51,
-      "name": "Frances Thornhill",
+      "id": 58,
+      "name": "Frances Thornell",
       "connections": 7,
       "sources": "Inferred, Perry, Perry (inferred)"
     },
     {
-      "id": 52,
+      "id": 59,
       "name": "Frances White",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 53,
+      "id": 60,
       "name": "Francois Van Crombrugge",
       "connections": 4,
       "sources": "Mendes"
     },
     {
-      "id": 54,
+      "id": 61,
       "name": "Frederick Glover?",
       "connections": 2,
       "sources": "Advertising Pornography"
     },
     {
-      "id": 55,
+      "id": 62,
       "name": "Frederick Raymond",
       "connections": 4,
       "sources": "Obscenity Trials, Obscenity Trials, Mendes"
     },
     {
-      "id": 56,
+      "id": 63,
       "name": "Furst",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 57,
+      "id": 64,
       "name": "George Brash",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 58,
+      "id": 65,
       "name": "George Cannon",
       "connections": 4,
       "sources": "McCalman & Mee, Mendes"
     },
     {
-      "id": 59,
+      "id": 66,
       "name": "George Crocker?",
       "connections": 1,
       "sources": "Advertising Pornography"
     },
     {
-      "id": 60,
+      "id": 67,
       "name": "George Jackson",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 61,
+      "id": 68,
       "name": "George Newbold",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 62,
+      "id": 69,
       "name": "George Robinson",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 63,
+      "id": 70,
       "name": "George White",
-      "connections": 3,
+      "connections": 7,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 64,
+      "id": 71,
+      "name": "Goin",
+      "connections": 1,
+      "sources": "Catalogue des Ecris"
+    },
+    {
+      "id": 72,
       "name": "Gustave Lehec",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 65,
+      "id": 73,
       "name": "H.G. Brooks",
       "connections": 2,
       "sources": "Advertising Pornography"
     },
     {
-      "id": 66,
+      "id": 74,
       "name": "Hannaford Bennett",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 67,
+      "id": 75,
       "name": "Harry Sidney Nichols",
-      "connections": 4,
+      "connections": 5,
       "sources": "Mendes, Obscenity Trials, Obscenity Trials"
     },
     {
-      "id": 68,
+      "id": 76,
+      "name": "Henri Clouzot",
+      "connections": 2,
+      "sources": "Catalogue des Ecris"
+    },
+    {
+      "id": 77,
       "name": "Henri Robert",
       "connections": 1,
       "sources": "Colligan (2014), Obscenity Trials"
     },
     {
-      "id": 69,
+      "id": 78,
+      "name": "Henriette Doucé",
+      "connections": 4,
+      "sources": "Colligan (2024)"
+    },
+    {
+      "id": 79,
       "name": "Henry Beresford",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 70,
+      "id": 80,
       "name": "Henry Clarke",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 71,
+      "id": 81,
       "name": "Henry May",
       "connections": 6,
       "sources": "Advertising Pornography, Obscenity Trials, Obscenity Trials, Advertising Pornography"
     },
     {
-      "id": 72,
+      "id": 82,
       "name": "Henry Paul",
-      "connections": 1,
+      "connections": 5,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 73,
+      "id": 83,
       "name": "Henry Robinson",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 74,
+      "id": 84,
       "name": "Henry Scarborough",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 75,
+      "id": 85,
       "name": "Herbert Constantine Judge",
       "connections": 7,
       "sources": "Inferred, Obscenity Trials"
     },
     {
-      "id": 76,
+      "id": 86,
       "name": "Hijman Binger",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 77,
+      "id": 87,
       "name": "Isaac Marcus Binger",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 78,
+      "id": 88,
       "name": "J. Berge",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 79,
+      "id": 89,
       "name": "J.H. Gaball",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 80,
+      "id": 90,
       "name": "James Aitken",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 81,
+      "id": 91,
       "name": "James Brewer",
       "connections": 3,
       "sources": "Advertising Pornography, Obscenity Trials"
     },
     {
-      "id": 82,
+      "id": 92,
       "name": "James Jenkins",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 83,
+      "id": 93,
       "name": "James Millson",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 84,
+      "id": 94,
       "name": "James Reeve",
-      "connections": 2,
+      "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 85,
+      "id": 95,
       "name": "Jane Jackson",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 86,
+      "id": 96,
       "name": "Jane Wadsworth",
       "connections": 4,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 87,
+      "id": 97,
+      "name": "Jean-Jules Gay",
+      "connections": 2,
+      "sources": "Colligan (2024)"
+    },
+    {
+      "id": 98,
       "name": "Jesse Wilby",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 88,
+      "id": 99,
       "name": "Jessie Judge",
       "connections": 9,
       "sources": "Advertising Pornography, Inferred, Perry (inferred)"
     },
     {
-      "id": 89,
+      "id": 100,
       "name": "John Bead",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 90,
+      "id": 101,
       "name": "John Benjamin Brookes",
       "connections": 1,
       "sources": "Advertising Pornography"
     },
     {
-      "id": 91,
+      "id": 102,
       "name": "John Camden Hotten",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 92,
+      "id": 103,
       "name": "John Day",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 93,
+      "id": 104,
       "name": "John Duncombe",
       "connections": 2,
       "sources": "Advertising Pornography, Obscenity Trials, Advertising Pornography"
     },
     {
-      "id": 94,
+      "id": 105,
       "name": "John Frederick Sutton",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 95,
+      "id": 106,
       "name": "John Harrison (the elder)",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 96,
+      "id": 107,
       "name": "John Harrison (the younger)",
       "connections": 4,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 97,
-      "name": "John Higdon Thornhill",
-      "connections": 8,
+      "id": 108,
+      "name": "John Higdon Thornell",
+      "connections": 7,
       "sources": "Advertising Pornography, Inferred, Perry"
     },
     {
-      "id": 98,
+      "id": 109,
       "name": "John Hulles",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 99,
+      "id": 110,
       "name": "John James Ascham",
       "connections": 3,
       "sources": "Mendes"
     },
     {
-      "id": 100,
+      "id": 111,
       "name": "John Jones",
       "connections": 3,
       "sources": "Mendes"
     },
     {
-      "id": 101,
+      "id": 112,
       "name": "John Lambert Dugdale",
-      "connections": 8,
-      "sources": "Advertising Pornography, Inferred, Obscenity Trials, Obscenity Trials, Advertising Pornography"
+      "connections": 7,
+      "sources": "Advertising Pornography, Inferred, Obscenity Trials"
     },
     {
-      "id": 102,
+      "id": 113,
       "name": "John Matthews",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 103,
+      "id": 114,
       "name": "John Murray",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 104,
+      "id": 115,
       "name": "John Piper",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 105,
+      "id": 116,
       "name": "John Sudbury",
       "connections": 3,
       "sources": "Mendes"
     },
     {
-      "id": 106,
+      "id": 117,
       "name": "John Warren",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 107,
+      "id": 118,
       "name": "John Winn",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 108,
+      "id": 119,
       "name": "Joseph Clarke",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 109,
+      "id": 120,
       "name": "Joseph Green",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 110,
+      "id": 121,
       "name": "Joseph Groves",
       "connections": 4,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 111,
+      "id": 122,
       "name": "Joseph Jenkinson",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 112,
+      "id": 123,
       "name": "Joseph Matthews",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 113,
+      "id": 124,
       "name": "Joseph de Matteo",
       "connections": 3,
       "sources": "Mendes, Obscenity Trials, Obscenity Trials, Obscenity Trials/Mendes"
     },
     {
-      "id": 114,
-      "name": "Jules Eug\u00e8ne Gauch\u00e9",
+      "id": 125,
+      "name": "Jules Eugène Gauché",
       "connections": 5,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 115,
+      "id": 126,
       "name": "Leonard Smithers",
-      "connections": 8,
-      "sources": "Colligan (2019), Mendes, Mendes, Mendes, Obscenity Trials, Obscenity Trials, Mendes"
+      "connections": 7,
+      "sources": "Colligan (2019), Mendes, Mendes, Mendes, Obscenity Trials"
     },
     {
-      "id": 116,
+      "id": 127,
+      "name": "Lerendu",
+      "connections": 1,
+      "sources": "BNF Retronews 001"
+    },
+    {
+      "id": 128,
+      "name": "Louis-Victor Deshayes",
+      "connections": 2,
+      "sources": "BNF Retronews 002, Drujon"
+    },
+    {
+      "id": 129,
       "name": "M.J.P. van Santen",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 117,
+      "id": 130,
       "name": "Mademoiselle Paoli",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 118,
+      "id": 131,
       "name": "Maria Fagnoit",
-      "connections": 4,
-      "sources": "Obscenity Trials"
+      "connections": 5,
+      "sources": "Obscenity Trials, Shared Address"
     },
     {
-      "id": 119,
-      "name": "Marie Ad\u00e8le Eug\u00e9nie Dufeutrell",
+      "id": 132,
+      "name": "Marie Adèle Eugénie Dufeutrell",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 120,
-      "name": "Marie Ad\u00e8le Jamain",
+      "id": 133,
+      "name": "Marie Adèle Jamain",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 121,
+      "id": 134,
+      "name": "Marie-Gabrielle Despréaux, femme Goin",
+      "connections": 2,
+      "sources": "BNF Retronews 002, Catalogue des Ecris"
+    },
+    {
+      "id": 135,
       "name": "Martin Joyner",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 122,
+      "id": 136,
       "name": "Mary Ashworth",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 123,
+      "id": 137,
       "name": "Mary Dresch",
       "connections": 3,
       "sources": "Inferred, Obscenity Trials"
     },
     {
-      "id": 124,
+      "id": 138,
       "name": "Michael Saunders",
       "connections": 5,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 125,
+      "id": 139,
       "name": "Novello and Co",
       "connections": 2,
       "sources": "Advertising Pornography"
     },
     {
-      "id": 126,
+      "id": 140,
       "name": "Oscar Lenormand",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 127,
+      "id": 141,
       "name": "Paul Ramel",
       "connections": 2,
       "sources": "Mendes, Obscenity Trials"
     },
     {
-      "id": 128,
+      "id": 142,
       "name": "Paul de Paris",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 129,
+      "id": 143,
       "name": "Percy Smith",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 130,
+      "id": 144,
       "name": "Poulet-Malassis",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 131,
+      "id": 145,
       "name": "R.R.L. Kerslake",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 132,
+      "id": 146,
       "name": "Ralph Jackson",
       "connections": 3,
       "sources": "Advertising Pornography"
     },
     {
-      "id": 133,
+      "id": 147,
       "name": "Richard Brash",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 134,
+      "id": 148,
       "name": "Richard Groves",
       "connections": 5,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 135,
+      "id": 149,
       "name": "Robert Murray",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 136,
+      "id": 150,
       "name": "Robert Wilson",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 137,
+      "id": 151,
       "name": "Roeloffzen & Hubner",
       "connections": 2,
       "sources": "Mendes"
     },
     {
-      "id": 138,
+      "id": 152,
       "name": "Samuel Tyler",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 139,
+      "id": 153,
       "name": "Sarah Dalton",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 140,
+      "id": 154,
       "name": "Selene Subtil",
       "connections": 3,
       "sources": "Obscenity Trials, Obscenity Trials/Mendes"
     },
     {
-      "id": 141,
+      "id": 155,
       "name": "Sophia Dukes",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 142,
+      "id": 156,
       "name": "Stanislaus Gorsky",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 143,
+      "id": 157,
       "name": "Susan Green",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 144,
+      "id": 158,
+      "name": "Terry",
+      "connections": 1,
+      "sources": "BNF Retronews 003"
+    },
+    {
+      "id": 159,
       "name": "Theophilus Sebastian Judge",
       "connections": 16,
       "sources": "Advertising Pornography, Inferred, Obscenity Trials, Obscenity Trials, Advertising Pornography"
     },
     {
-      "id": 145,
-      "name": "Theophilus Sebastian Judge?",
-      "connections": 1,
-      "sources": "Obscenity Trials"
-    },
-    {
-      "id": 146,
+      "id": 160,
       "name": "Thomas Blacketer",
-      "connections": 5,
+      "connections": 6,
       "sources": "Obscenity Trials, Perry"
     },
     {
-      "id": 147,
+      "id": 161,
       "name": "Thomas Burton",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 148,
+      "id": 162,
       "name": "Thomas Cairns",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 149,
+      "id": 163,
       "name": "Thomas Dugdale",
       "connections": 4,
       "sources": "Inferred, Obscenity Trials"
     },
     {
-      "id": 150,
+      "id": 164,
       "name": "Thomas Paine Carlile",
       "connections": 2,
       "sources": "Advertising Pornography, Bull (2025)"
     },
     {
-      "id": 151,
+      "id": 165,
       "name": "Thomas Prest",
       "connections": 1,
       "sources": "Advertising Pornography"
     },
     {
-      "id": 152,
-      "name": "Th\u00e9ophile Fillon",
+      "id": 166,
+      "name": "Théophile Fillon",
       "connections": 1,
       "sources": "Colligan (2019)"
     },
     {
-      "id": 153,
+      "id": 167,
+      "name": "Unknown",
+      "connections": 1,
+      "sources": "Obscenity Trials"
+    },
+    {
+      "id": 168,
       "name": "Victor Hubert",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 154,
+      "id": 169,
       "name": "W. Pedder",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 155,
+      "id": 170,
       "name": "W.T. Robson",
       "connections": 1,
       "sources": "Mendes"
     },
     {
-      "id": 156,
+      "id": 171,
       "name": "Walter Douglas Munday",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 157,
+      "id": 172,
       "name": "Walter Warnforn Piper",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 158,
+      "id": 173,
       "name": "Warnforn Piper",
       "connections": 2,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 159,
+      "id": 174,
       "name": "William Arthur Dukes",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 160,
+      "id": 175,
       "name": "William Benbow",
       "connections": 2,
       "sources": "Advertising Pornography, McCalman, McCalman & Mee"
     },
     {
-      "id": 161,
+      "id": 176,
       "name": "William Burton",
-      "connections": 4,
-      "sources": "Obscenity Trials"
+      "connections": 6,
+      "sources": "Mendes, Obscenity Trials, Obscenity Trials"
     },
     {
-      "id": 162,
+      "id": 177,
       "name": "William Dugdale",
-      "connections": 34,
+      "connections": 32,
       "sources": "Advertising Pornography, Advertising Pornography, McCalman, Advertising Pornography, Obscenity Trials, Bull (2025), Inferred, Mendes, Mendes, Obscenity Trials, Obscenity Trials, Obscenity Trials, Advertising Pornography, Perry"
     },
     {
-      "id": 163,
+      "id": 178,
       "name": "William Edwards",
       "connections": 1,
       "sources": "Advertising Pornography"
     },
     {
-      "id": 164,
+      "id": 179,
       "name": "William F. Howe",
       "connections": 1,
       "sources": "Advertising Pornography, Obscenity Trials"
     },
     {
-      "id": 165,
+      "id": 180,
       "name": "William F. Howe?",
       "connections": 2,
       "sources": "Obscenity Trials, Obscenity Trials, Advertising Pornography"
     },
     {
-      "id": 166,
+      "id": 181,
       "name": "William Fagnoit",
       "connections": 4,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 167,
+      "id": 182,
       "name": "William Henry Payne",
-      "connections": 2,
+      "connections": 6,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 168,
+      "id": 183,
       "name": "William Jenkinson",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 169,
+      "id": 184,
       "name": "William John Dugdale",
       "connections": 9,
       "sources": "Inferred, Obscenity Trials, Obscenity Trials, Advertising Pornography"
     },
     {
-      "id": 170,
+      "id": 185,
       "name": "William Lazenby",
-      "connections": 7,
+      "connections": 6,
       "sources": "Mendes, Mendes, Obscenity Trials, Obscenity Trials, Obscenity Trials, Mendes"
     },
     {
-      "id": 171,
+      "id": 186,
       "name": "William Matthews",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 172,
+      "id": 187,
       "name": "William Miller",
-      "connections": 1,
+      "connections": 4,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 173,
+      "id": 188,
+      "name": "William Nicholas Fagnoit",
+      "connections": 1,
+      "sources": "Shared Address"
+    },
+    {
+      "id": 189,
       "name": "William Nunn",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 174,
+      "id": 190,
       "name": "William Saunders",
       "connections": 3,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 175,
+      "id": 191,
       "name": "William Strange",
       "connections": 1,
       "sources": "Advertising Pornography"
     },
     {
-      "id": 176,
+      "id": 192,
       "name": "William Walter George",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 177,
+      "id": 193,
       "name": "William Williams",
       "connections": 1,
       "sources": "Obscenity Trials"
     },
     {
-      "id": 178,
+      "id": 194,
       "name": "William Winn",
       "connections": 6,
       "sources": "Advertising Pornography, Obscenity Trials"
@@ -1276,56 +1418,56 @@ const graphData = {
   ],
   "links": [
     {
-      "source": 2,
-      "target": 81,
+      "source": 1,
+      "target": 91,
       "type": "Employer/employee",
       "category": "Business",
-      "details": "Brewer was 'likely working for the Judge family'; 'Megret and Co' named as one of Judge's aliases",
+      "details": "Brewer was 'likely working for the Judge family'; 'Megret and Co' named as one of Judge's aliases (1864)",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 3,
-      "target": 16,
+      "source": 2,
+      "target": 17,
       "type": "Business connection",
       "category": "Business",
       "details": "Duringe served as Brancart's Paris agent from early 1890s. Dutel suggests Duringe either took over Brancart's business or collaborated with him.",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 3,
-      "target": 24,
+      "source": 2,
+      "target": 28,
       "type": "Business connection",
       "category": "Business",
       "details": "Hirsch claimed that Duringe was in possession of the original manuscript of the underground novel Teleny; apparent business connections between the two",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 3,
-      "target": 29,
+      "source": 2,
+      "target": 33,
       "type": "Business connection",
       "category": "Business",
       "details": "Renaudie was Duringe's printer for French titles, possibly under an arrangement with Brancart",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 3,
-      "target": 115,
+      "source": 2,
+      "target": 126,
       "type": "Business connection",
       "category": "Business",
       "details": "Duringe may have worked as proxy publisher for Smithers; Duringe's early years in London strengthen this conjecture",
       "biblio_source": "Colligan (2019), Mendes"
     },
     {
-      "source": 3,
-      "target": 117,
+      "source": 2,
+      "target": 130,
       "type": "Employer/agent",
       "category": "Business",
       "details": "Paoli was Duringe's female distributor/broker",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 5,
-      "target": 67,
+      "source": 4,
+      "target": 75,
       "type": "Business connection",
       "category": "Business",
       "details": "Cooper retailed publications from the Nichols & Smithers network via Avery at 13 Holywell Street",
@@ -1333,286 +1475,278 @@ const graphData = {
     },
     {
       "source": 9,
-      "target": 162,
+      "target": 177,
       "type": "Employer/employee",
       "category": "Business",
       "details": "Andrew White 'ran a bookshop probably for Dugdale' at 31 Holywell Street (1850s)",
       "biblio_source": "Mendes, Obscenity Trials"
     },
     {
-      "source": 14,
-      "target": 115,
-      "type": "Business connection",
-      "category": "Business",
-      "details": "Partidge conspired with Nichols (Smithers' partner) to publish obscene books; part of the wider Nichols-Smithers publishing network",
-      "biblio_source": "Obscenity Trials, Mendes"
-    },
-    {
-      "source": 16,
-      "target": 24,
+      "source": 17,
+      "target": 28,
       "type": "Business connection",
       "category": "Business",
       "details": "Part of the same Paris pornographic network; both arrested in 1909 sweep.",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 16,
-      "target": 127,
+      "source": 17,
+      "target": 141,
       "type": "Employer/agent",
       "category": "Business",
-      "details": "Ramel used alias 'G. Brancart' and was likely an agent for Brancart's Brussels operation",
+      "details": "Ramel used alias 'G. Brancart' and was likely an agent for Brancart's Brussels operation (1891)",
       "biblio_source": "Mendes, Obscenity Trials"
     },
     {
-      "source": 19,
-      "target": 53,
+      "source": 23,
+      "target": 60,
       "type": "Business connection",
       "category": "Business",
       "details": "Van Crombrugge used Binger to print publications",
       "biblio_source": "Mendes"
     },
     {
-      "source": 19,
-      "target": 115,
+      "source": 23,
+      "target": 126,
       "type": "Business connection",
       "category": "Business",
       "details": "Binger Bros. printed works for Smithers",
       "biblio_source": "Mendes"
     },
     {
-      "source": 21,
-      "target": 170,
+      "source": 25,
+      "target": 185,
       "type": "Business connection",
       "category": "Business",
       "details": "Carrington was connected to the Cameron/Lazenby network before establishing himself in Paris",
       "biblio_source": "Mendes"
     },
     {
-      "source": 24,
-      "target": 21,
+      "source": 28,
+      "target": 25,
       "type": "Business connection",
       "category": "Business",
       "details": "Hirsch was the London agent/distributor for Carrington's Paris-published material.",
       "biblio_source": "Mendes, Obscenity Trials"
     },
     {
-      "source": 24,
-      "target": 33,
+      "source": 28,
+      "target": 38,
       "type": "Business connection",
       "category": "Business",
       "details": "Durvand was bookbinder ('reliure') for Hirsch's clandestine editions",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 24,
-      "target": 35,
+      "source": 28,
+      "target": 40,
       "type": "Business connection",
       "category": "Business",
       "details": "Both Hirsch and Avery were key London distributors of clandestine erotica in the 1890s. Hirsch at Prince's-buildings, Avery at 53 Greek St, Soho",
       "biblio_source": "Mendes"
     },
     {
-      "source": 24,
-      "target": 45,
+      "source": 28,
+      "target": 50,
       "type": "Business connection",
       "category": "Business",
       "details": "Kapp was Hirsch's printer for clandestine editions",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 24,
-      "target": 56,
+      "source": 28,
+      "target": 63,
       "type": "Business connection",
       "category": "Business",
       "details": "Hirsch supplied luxurious editions of pornographic classics to Furst, an Austrian dealer.",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 24,
-      "target": 113,
+      "source": 28,
+      "target": 124,
       "type": "Business connection",
       "category": "Business",
       "details": "Both French booksellers in Soho. Hirsch succeeded Hubert at Prince's-buildings, and Hubert was De Matteo's supplier.",
       "biblio_source": "Mendes, Obscenity Trials"
     },
     {
-      "source": 24,
-      "target": 115,
+      "source": 28,
+      "target": 126,
       "type": "Business connection",
       "category": "Business",
       "details": "Hirsch's shop at Prince's-buildings was an outlet for publications from the Smithers/Nichols network as well as Carrington's Paris output",
       "biblio_source": "Mendes"
     },
     {
-      "source": 24,
-      "target": 126,
+      "source": 28,
+      "target": 140,
       "type": "Business connection",
       "category": "Business",
       "details": "Lenormand produced collotypes (phototypies) for Hirsch's clandestine editions",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 24,
-      "target": 152,
+      "source": 28,
+      "target": 166,
       "type": "Business connection",
       "category": "Business",
       "details": "Fillon was an engraver who worked on Hirsch's clandestine editions",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 34,
-      "target": 16,
+      "source": 39,
+      "target": 17,
       "type": "Business connection",
       "category": "Business",
       "details": "Maheu printed for Brancart in the 1880s",
       "biblio_source": "Mendes"
     },
     {
-      "source": 34,
-      "target": 21,
+      "source": 39,
+      "target": 25,
       "type": "Business connection",
       "category": "Business",
       "details": "Maheu may have published with Carrington from 1891",
       "biblio_source": "Mendes"
     },
     {
-      "source": 35,
-      "target": 5,
+      "source": 40,
+      "target": 4,
       "type": "Business connection",
       "category": "Business",
       "details": "Alfred Cooper was a retailer for Avery's publications, operating from 13 Holywell Street. Cooper tried 1892 as bookseller at Hyde-street, Oxford-street",
       "biblio_source": "Mendes, Obscenity Trials"
     },
     {
-      "source": 35,
-      "target": 15,
+      "source": 40,
+      "target": 16,
       "type": "Business connection",
       "category": "Business",
       "details": "Reader was an antiquarian bookseller who collaborated with Avery on the 'Rochester Reprint' series (1884-1890)",
       "biblio_source": "Mendes"
     },
     {
-      "source": 35,
-      "target": 21,
+      "source": 40,
+      "target": 25,
       "type": "Employer/employee",
       "category": "Business",
       "details": "The young Carrington was possibly a travelling agent for Avery c.1888-93, before establishing himself in Paris",
       "biblio_source": "Mendes"
     },
     {
-      "source": 35,
-      "target": 67,
+      "source": 40,
+      "target": 75,
       "type": "Business connection",
       "category": "Business",
       "details": "Avery acted as London distributor for the Nichols & Smithers 'Erotika Biblion Society' publications (1888-91). Nichols had printing shop at 10 Dean St, Soho; office at 3 Soho Square",
       "biblio_source": "Mendes, Obscenity Trials"
     },
     {
-      "source": 35,
-      "target": 79,
+      "source": 40,
+      "target": 89,
       "type": "Business connection",
       "category": "Business",
       "details": "J.H. Gaball was a printer used by Avery for his publications",
       "biblio_source": "Mendes"
     },
     {
-      "source": 35,
-      "target": 115,
+      "source": 40,
+      "target": 126,
       "type": "Business connection",
       "category": "Business",
       "details": "Avery was London distributor for publications by Smithers & Nichols' 'Erotika Biblion Society' (1888-91). Smithers shared office at 3 Soho Square with Nichols (1891-94)",
       "biblio_source": "Mendes"
     },
     {
-      "source": 35,
-      "target": 122,
+      "source": 40,
+      "target": 136,
       "type": "Partners",
       "category": "Business",
       "details": "Ashworth was Avery's common-law wife and continued the business after his death",
       "biblio_source": "Mendes"
     },
     {
-      "source": 35,
-      "target": 131,
+      "source": 40,
+      "target": 145,
       "type": "Business connection",
       "category": "Business",
       "details": "R.R.L. Kerslake was a printer used by Avery for his publications",
       "biblio_source": "Mendes"
     },
     {
-      "source": 35,
-      "target": 154,
+      "source": 40,
+      "target": 169,
       "type": "Business connection",
       "category": "Business",
       "details": "W. Pedder was a bookbinder used by Avery",
       "biblio_source": "Mendes"
     },
     {
-      "source": 35,
-      "target": 155,
+      "source": 40,
+      "target": 170,
       "type": "Business connection",
       "category": "Business",
       "details": "W.T. Robson was a printer used by Avery for his publications",
       "biblio_source": "Mendes"
     },
     {
-      "source": 35,
-      "target": 170,
+      "source": 40,
+      "target": 185,
       "type": "Business connection",
       "category": "Business",
       "details": "Avery began collaborating with Lazenby from early 1880s as publisher c.1884. Avery at 18 Carlisle St (1881-85), then 145 Gt College St, Camden Town (1883-90), then 53 Greek St, Soho (from 1887). Avery succeeded to Lazenby's business after Lazenby's 1886 prosecution.",
       "biblio_source": "Mendes, Obscenity Trials"
     },
     {
-      "source": 45,
-      "target": 31,
+      "source": 50,
+      "target": 35,
       "type": "Business succession",
       "category": "Business",
       "details": "Kapp was successor of Unsinger as printer",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 53,
-      "target": 16,
+      "source": 60,
+      "target": 17,
       "type": "Business connection",
       "category": "Business",
       "details": "Van Crombrugge worked with Brancart from c.1888; mainly a bookseller",
       "biblio_source": "Mendes"
     },
     {
-      "source": 58,
-      "target": 160,
+      "source": 65,
+      "target": 175,
       "type": "Business connection",
       "category": "Business",
       "details": "Cannon contributed to Benbow's Political Register",
       "biblio_source": "McCalman & Mee"
     },
     {
-      "source": 66,
-      "target": 115,
+      "source": 74,
+      "target": 126,
       "type": "Business connection",
       "category": "Business",
       "details": "Bennett acted as London agent for Binger Bros., linking Amsterdam and Smithers",
       "biblio_source": "Mendes"
     },
     {
-      "source": 67,
-      "target": 115,
+      "source": 75,
+      "target": 126,
       "type": "Business connection",
       "category": "Business",
       "details": "Partners in the 'Erotika Biblion Society' (1888-91). Both from Sheffield: Nichols ran 'Nichols Book Emporium' at GlAdvertising Pornographytone Buildings then 29 Orchard St; Smithers practised as solicitor c.1886-92. Shared London office at 3 Soho Square.",
       "biblio_source": "Mendes, Obscenity Trials"
     },
     {
-      "source": 68,
-      "target": 21,
+      "source": 77,
+      "target": 25,
       "type": "Employer/employee",
       "category": "Business",
       "details": "Henri Robert was an agent for Charles Carrington. Tried 1897 as 'Henry Mercier, alias Charles Carrington, alias Henry Roberts'",
       "biblio_source": "Colligan (2014), Obscenity Trials"
     },
     {
-      "source": 75,
+      "source": 85,
       "target": 9,
       "type": "Business connection",
       "category": "Business",
@@ -1620,256 +1754,256 @@ const graphData = {
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 78,
-      "target": 16,
+      "source": 88,
+      "target": 17,
       "type": "Business connection",
       "category": "Business",
       "details": "Berge pirated Brancart's publications from Rotterdam",
       "biblio_source": "Mendes"
     },
     {
-      "source": 87,
-      "target": 170,
+      "source": 98,
+      "target": 185,
       "type": "Business connection",
       "category": "Business",
       "details": "Wilby gave information to police leading to surveillance and arrest of Lazenby (alias Duncan Cameron) in 1886; Lazenby had been 'his wholesale man' (supplier)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 91,
-      "target": 35,
+      "source": 102,
+      "target": 40,
       "type": "Employer/employee",
       "category": "Business",
       "details": "Avery was Hotten's shop assistant before becoming an independent publisher",
       "biblio_source": "Mendes"
     },
     {
-      "source": 99,
-      "target": 162,
+      "source": 110,
+      "target": 177,
       "type": "Business connection",
       "category": "Business",
       "details": "Ascham was a bookseller connected to Dugdale in the 1830s",
       "biblio_source": "Mendes"
     },
     {
-      "source": 100,
-      "target": 58,
+      "source": 111,
+      "target": 65,
       "type": "Printer/front man",
       "category": "Business",
       "details": "Jones's name appeared on title pages of Cannon's publications",
       "biblio_source": "Mendes"
     },
     {
-      "source": 100,
-      "target": 99,
+      "source": 111,
+      "target": 110,
       "type": "Printer/front man",
       "category": "Business",
       "details": "Jones's name appeared on title pages of Ascham's publications",
       "biblio_source": "Mendes"
     },
     {
-      "source": 100,
-      "target": 162,
+      "source": 111,
+      "target": 177,
       "type": "Printer/front man",
       "category": "Business",
       "details": "Jones's name appeared on title pages of Dugdale's publications",
       "biblio_source": "Mendes"
     },
     {
-      "source": 105,
-      "target": 58,
+      "source": 116,
+      "target": 65,
       "type": "Printer/front man",
       "category": "Business",
       "details": "Sudbury's name appeared on title pages of Cannon's publications",
       "biblio_source": "Mendes"
     },
     {
-      "source": 105,
-      "target": 99,
+      "source": 116,
+      "target": 110,
       "type": "Printer/front man",
       "category": "Business",
       "details": "Sudbury's name appeared on title pages of Ascham's publications",
       "biblio_source": "Mendes"
     },
     {
-      "source": 105,
-      "target": 162,
+      "source": 116,
+      "target": 177,
       "type": "Printer/front man",
       "category": "Business",
       "details": "Sudbury's name appeared on title pages of Dugdale's publications",
       "biblio_source": "Mendes"
     },
     {
-      "source": 114,
-      "target": 3,
+      "source": 125,
+      "target": 2,
       "type": "Business connection",
       "category": "Business",
-      "details": "Gauch\u00e9 reprinted works published by Duringe",
+      "details": "Gauché reprinted works published by Duringe",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 114,
+      "source": 125,
       "target": 10,
       "type": "Partners (romantic and professional)",
       "category": "Business",
-      "details": "Gauch\u00e9 and Leboucher lived and worked together from the beginning of the century, had two children, and ran both a pornographic and legitimate publishing/printing business.",
+      "details": "Gauché and Leboucher lived and worked together from the beginning of the century, had two children, and ran both a pornographic and legitimate publishing/printing business.",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 114,
-      "target": 16,
+      "source": 125,
+      "target": 17,
       "type": "Business connection",
       "category": "Business",
-      "details": "Gauch\u00e9 reprinted works published by Brancart. Used an imprint similar to Brancart's, suggesting possible business arrangement",
+      "details": "Gauché reprinted works published by Brancart. Used an imprint similar to Brancart's, suggesting possible business arrangement",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 114,
-      "target": 24,
+      "source": 125,
+      "target": 28,
       "type": "Business connection",
       "category": "Business",
-      "details": "Gauch\u00e9 reprinted works published by Hirsch",
+      "details": "Gauché reprinted works published by Hirsch",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 116,
-      "target": 137,
+      "source": 129,
+      "target": 151,
       "type": "Business connection",
       "category": "Business",
       "details": "Van Santen merged with Roeloffzen-Hubner c.1895",
       "biblio_source": "Mendes"
     },
     {
-      "source": 127,
-      "target": 21,
+      "source": 141,
+      "target": 25,
       "type": "Business connection",
-      "category": "Business",
+      "category": "Other",
       "details": "Indirect connection via Brancart. Ramel used alias 'G. Brancart' and was agent for Brancart; Carrington was connected to the Belgian/French import network",
       "biblio_source": "Mendes, Obscenity Trials"
     },
     {
-      "source": 130,
-      "target": 170,
+      "source": 144,
+      "target": 185,
       "type": "Business connection",
       "category": "Business",
       "details": "Arranged printing for Lazenby in 1875",
       "biblio_source": "Mendes"
     },
     {
-      "source": 137,
-      "target": 115,
+      "source": 151,
+      "target": 126,
       "type": "Business connection",
       "category": "Business",
-      "details": "Amsterdam printers who printed works for Smithers",
+      "details": "Amsterdam printers who printed worked for Smithers",
       "biblio_source": "Mendes"
     },
     {
-      "source": 140,
-      "target": 24,
+      "source": 154,
+      "target": 28,
       "type": "Employer/employee",
       "category": "Business",
       "details": "Hirsch managed Subtil's shop at 4 Prince's-buildings, Coventry-street, and later purchased it from her",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 140,
-      "target": 113,
+      "source": 154,
+      "target": 124,
       "type": "Business connection",
       "category": "Business",
       "details": "Subtil took over Victor Hubert's shop at Prince's-buildings (1890); Hubert had been De Matteo's supplier (1887). Part of the same French bookselling network in Soho",
       "biblio_source": "Obscenity Trials/Mendes"
     },
     {
-      "source": 144,
-      "target": 162,
+      "source": 159,
+      "target": 177,
       "type": "Business succession",
       "category": "Business",
       "details": "T.S. Judge was 'the son in law and successor of the late Dugdale'; took over 44 Wych Street and 2 Holywell-street",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 150,
-      "target": 54,
+      "source": 164,
+      "target": 61,
       "type": "Business partnership",
       "category": "Business",
       "details": "Ran Glover and Ward's Repository together at 103 Strand (1845)",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 150,
-      "target": 162,
+      "source": 164,
+      "target": 177,
       "type": "Business connection",
       "category": "Business",
       "details": "Distributed books for Dugdale (1839)",
       "biblio_source": "Bull (2025)"
     },
     {
-      "source": 151,
-      "target": 36,
+      "source": 165,
+      "target": 41,
       "type": "Employer/employee",
       "category": "Business",
       "details": "Thomas Prest reportedly composed and compiled songs for Duncombe. Duncombe appears to have used his name for advertising 1831-1835.",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 153,
-      "target": 113,
+      "source": 168,
+      "target": 124,
       "type": "Business connection",
       "category": "Business",
       "details": "Trial records describe Hubert as 'a supplier of De Matteo'. Hubert at Prince's-buildings, Coventry-street (1887); De Matteo at Old Compton-street (1886)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 162,
-      "target": 58,
+      "source": 177,
+      "target": 65,
       "type": "Business connection",
       "category": "Business",
       "details": "Dugdale reprinted many of Cannon's works in the 1860s, suggesting a possible business connection/succession",
       "biblio_source": "Mendes"
     },
     {
-      "source": 162,
-      "target": 160,
+      "source": 177,
+      "target": 175,
       "type": "Employer/employee",
       "category": "Business",
       "details": "Dugdale got his start in the book trade working for Benbow",
       "biblio_source": "Advertising Pornography, McCalman"
     },
     {
-      "source": 170,
-      "target": 9,
+      "source": 185,
+      "target": 176,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "Lazenby used addresses previously associated with  William Burton (alias Andrew White), including 142 New Kent Road. Mendes suggests that they may be the same person",
       "biblio_source": "Mendes, Obscenity Trials"
     },
     {
-      "source": 170,
-      "target": 55,
+      "source": 185,
+      "target": 62,
       "type": "Business connection",
       "category": "Business",
       "details": "South Wales Daily News reports Raymond 'was seen with a man by the name of Judd, an old offender'; Judd may be Lazenby",
       "biblio_source": "Obscenity Trials, Mendes"
     },
     {
-      "source": 173,
-      "target": 162,
+      "source": 189,
+      "target": 177,
       "type": "Employer/employee",
       "category": "Business",
       "details": "Sold obscene books for Dugdale (1845)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 178,
-      "target": 162,
+      "source": 194,
+      "target": 177,
       "type": "Business connection",
       "category": "Business",
       "details": "Winn appears to have sold books for Dugdale out of 34 Holywell Street around 1849",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 3,
-      "target": 64,
+      "source": 2,
+      "target": 72,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Convicted together 1892; Duringe as pornographic middleman ('courtier en librairie'), Lehec as bookseller.",
@@ -1877,7 +2011,7 @@ const graphData = {
     },
     {
       "source": 8,
-      "target": 25,
+      "target": 29,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Arrested together in obscenity sweep focused on George Ferdinand Springmuhl von Weissenfeld (1902). Coleman was a printer for Weissenfeld.",
@@ -1885,7 +2019,7 @@ const graphData = {
     },
     {
       "source": 8,
-      "target": 38,
+      "target": 43,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Arrested together in obscenity sweep focused on George Ferdinand Springmuhl von Weissenfeld (1902). Coleman was a printer for Weissenfeld.",
@@ -1893,7 +2027,7 @@ const graphData = {
     },
     {
       "source": 8,
-      "target": 156,
+      "target": 171,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Arrested together in obscenity sweep focused on George Ferdinand Springmuhl von Weissenfeld (1902). Munday was a printer for Weissenfeld.",
@@ -1908,39 +2042,39 @@ const graphData = {
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 14,
-      "target": 67,
+      "source": 15,
+      "target": 75,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Partidge tried 1903 for 'conspiring with Harry Sidney Nichols, not in custody, to publish obscene books'. Nichols had fled to Paris in 1900",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 18,
-      "target": 72,
+      "source": 21,
+      "target": 82,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together(1871)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 27,
-      "target": 133,
+      "source": 31,
+      "target": 147,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together (1871)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 41,
-      "target": 148,
+      "source": 46,
+      "target": 162,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together (1871)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 43,
+      "source": 48,
       "target": 8,
       "type": "Co-defendants",
       "category": "Co-defendants",
@@ -1948,167 +2082,159 @@ const graphData = {
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 63,
-      "target": 167,
+      "source": 70,
+      "target": 182,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together (1871)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 81,
-      "target": 106,
+      "source": 91,
+      "target": 117,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together (1864)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 84,
-      "target": 118,
+      "source": 94,
+      "target": 131,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together (1847)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 84,
-      "target": 166,
+      "source": 94,
+      "target": 181,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together (1847)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 97,
-      "target": 146,
+      "source": 108,
+      "target": 160,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Both convicted 1858 of selling obscene prints from 5 (or 16) Holywell St",
       "biblio_source": "Perry"
     },
     {
-      "source": 124,
-      "target": 134,
+      "source": 138,
+      "target": 148,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together (1869) along with Paul de Paris",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 128,
-      "target": 124,
+      "source": 142,
+      "target": 138,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together (1869) along with Richard Groves",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 128,
-      "target": 134,
+      "source": 142,
+      "target": 148,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together (1869) along with Michael Saunders",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 156,
-      "target": 25,
+      "source": 171,
+      "target": 29,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Arrested together in obscenity sweep focused on George Ferdinand Springmuhl von Weissenfeld (1902). Both printers for Weissenfeld.",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 162,
-      "target": 71,
+      "source": 177,
+      "target": 81,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together CRIM1850_001 (1850)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 165,
-      "target": 42,
+      "source": 180,
+      "target": 47,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Both tried for selling obscene material out of 195 Wellington-terrace, Waterloo-road (1858)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 166,
-      "target": 118,
+      "source": 181,
+      "target": 131,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried together  (1847) along with James Reeve",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 86,
-      "target": 52,
+      "source": 96,
+      "target": 59,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried with Frances White and Catherine Hodgson (1838)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 86,
-      "target": 20,
+      "source": 96,
+      "target": 24,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried with Frances White and Catherine Hodgson (1838)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 52,
-      "target": 20,
+      "source": 59,
+      "target": 24,
       "type": "Co-defendants",
       "category": "Co-defendants",
       "details": "Tried with Catherine Hodgson and Jane Wadsworth (1838)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 170,
-      "target": 172,
-      "type": "Co-defendants",
-      "category": "Co-defendants",
-      "details": "Tried together (1871)",
-      "biblio_source": "Obscenity Trials"
-    },
-    {
-      "source": 1,
-      "target": 75,
+      "source": 0,
+      "target": 85,
       "type": "Nephew/uncle",
       "category": "Family",
       "details": "Adolphus Eugene Judge was Adolphus Henry Judge and Fanny Delannoy's son; Herbert Constantine Judge was Adolphus Henry Judge's brother",
       "biblio_source": "Inferred"
     },
     {
-      "source": 2,
-      "target": 1,
+      "source": 1,
+      "target": 0,
       "type": "Father/son",
       "category": "Family",
       "details": "Adolphus Henry Judge was Adolphus Eugene Judge's father",
       "biblio_source": "Obscenity Trials, Perry"
     },
     {
-      "source": 3,
-      "target": 119,
+      "source": 2,
+      "target": 132,
       "type": "Husband/wife",
       "category": "Family",
       "details": "Married 1881 near Lyon; 'Madame Duringe' possibly involved in the pornographic trade during his imprisonments.",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 24,
-      "target": 49,
+      "source": 28,
+      "target": 55,
       "type": "Husband/wife",
       "category": "Family",
-      "details": "Married 1889 in Paris. Jamain was the sister of Gauch\u00e9's wife Marie Ad\u00e8le Jamain, revealing close familial ties within the trade",
+      "details": "Married 1889 in Paris. Jamain was the sister of Gauché's wife Marie Adèle Jamain, revealing close familial ties within the trade",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 37,
+      "source": 42,
       "target": 13,
       "type": "Father/son",
       "category": "Family",
@@ -2116,95 +2242,95 @@ const graphData = {
       "biblio_source": "Advertising Pornography, Obscenity Trials"
     },
     {
-      "source": 46,
-      "target": 4,
+      "source": 51,
+      "target": 3,
       "type": "Father/daughter",
       "category": "Family",
       "details": "Alexis was a Brussels erotic bookseller and publisher",
       "biblio_source": "Mendes"
     },
     {
-      "source": 47,
-      "target": 1,
+      "source": 52,
+      "target": 0,
       "type": "Uncle/nephew",
       "category": "Family",
       "details": "Eugene Alfred was brother of A.H. Judge, who was father of Adolphus Eugene",
       "biblio_source": "Inferred"
     },
     {
-      "source": 47,
-      "target": 2,
+      "source": 52,
+      "target": 1,
       "type": "Brothers",
       "category": "Family",
       "details": "Both sons of Jasper Tomsett Judge and Mary Matthews. Eugene Alfred (b. 1835), Adolphus Henry (b. 1831)",
       "biblio_source": "Inferred"
     },
     {
-      "source": 47,
-      "target": 144,
+      "source": 52,
+      "target": 159,
       "type": "Brothers",
       "category": "Family",
       "details": "Both sons of Jasper Tomsett Judge and Mary Matthews. Eugene Alfred (b. 1835), Theophilus Sebastian (b. 1840)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 49,
-      "target": 120,
+      "source": 55,
+      "target": 133,
       "type": "Sisters",
       "category": "Family",
-      "details": "Eug\u00e9nie married Charles Hirsch (1889); Marie Ad\u00e8le married Jules Eug\u00e8ne Gauch\u00e9 (1876).",
+      "details": "Eugénie married Charles Hirsch (1889); Marie Adèle married Jules Eugène Gauché (1876).",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 51,
-      "target": 97,
+      "source": 58,
+      "target": 108,
       "type": "Husband/wife",
       "category": "Family",
       "details": "Married 26 Oct 1845 in St. Martin-in-the Fields; ran Dugdale's shop at 5 Holywell St while he was in prison",
       "biblio_source": "Perry"
     },
     {
-      "source": 53,
-      "target": 4,
+      "source": 60,
+      "target": 3,
       "type": "Father-in-law/son-in-law",
       "category": "Family",
       "details": "Van Crombrugge married Christiaens's daughter Emilie",
       "biblio_source": "Mendes"
     },
     {
-      "source": 53,
-      "target": 46,
+      "source": 60,
+      "target": 51,
       "type": "Husband/wife",
       "category": "Family",
       "details": "Married February 1881",
       "biblio_source": "Mendes"
     },
     {
-      "source": 63,
-      "target": 9,
+      "source": 70,
+      "target": 176,
       "type": "Father/son",
       "category": "Family",
-      "details": "George White (15-16, 1871) at 32 Holywell Street, described as one 'whose mother was a very extensive dealer'; Andrew White (alias William Burton) operated at 31-32 Holywell Street. According to Mendes, after Andrew White's death in 1868 his widow carried on the business until 1872, then his son Thomas at 44 Holywell Street",
+      "details": "George White (15-16, 1871) at 32 Holywell Street, described as one 'whose mother was a very extensive dealer'; William Burton (alias Andrew White) operated at 31-32 Holywell Street. According to Mendes, after Andrew White's death in 1868 his widow carried on the business until 1872, then his son Thomas at 44 Holywell Street",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 75,
-      "target": 2,
+      "source": 85,
+      "target": 1,
       "type": "Relatives",
       "category": "Family",
       "details": "Both members of the Judge family; Herbert at 32 Holywell Street",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 76,
-      "target": 77,
+      "source": 86,
+      "target": 87,
       "type": "Brothers",
       "category": "Family",
       "details": "Hijman directed the Amsterdam firm; Isaac set up a Paris branch",
       "biblio_source": "Mendes"
     },
     {
-      "source": 80,
+      "source": 90,
       "target": 11,
       "type": "Husband/wife",
       "category": "Family",
@@ -2212,544 +2338,560 @@ const graphData = {
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 88,
-      "target": 169,
+      "source": 99,
+      "target": 184,
       "type": "Siblings",
       "category": "Family",
       "details": "Jessie was William Dugdale's daughter; W.J. Dugdale was his son",
       "biblio_source": "Inferred"
     },
     {
-      "source": 93,
-      "target": 36,
+      "source": 104,
+      "target": 41,
       "type": "Brothers",
       "category": "Family",
       "details": "Both publisher-booksellers; John at 19 Little Queen Street, Edward at various addresses including Middle Row, Holborn and 78 Long Acre",
       "biblio_source": "Obscenity Trials, Advertising Pornography"
     },
     {
-      "source": 101,
-      "target": 51,
+      "source": 112,
+      "target": 58,
       "type": "Uncle/niece",
       "category": "Family",
       "details": "John Lambert was brother of William Dugdale, who was father of Frances",
       "biblio_source": "Inferred"
     },
     {
-      "source": 108,
-      "target": 70,
+      "source": 119,
+      "target": 80,
       "type": "Father/son",
       "category": "Family",
       "details": "Henry described as \"his son, a young man about twenty five\"; both at Featherstone-street, City Road (1820)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 109,
-      "target": 143,
+      "source": 120,
+      "target": 157,
       "type": "Husband/wife",
       "category": "Family",
       "details": "Susan described as \"wife of Joseph Green, who keeps a print-shop\"; both at Old-Round-court, Strand (1816)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 110,
-      "target": 134,
+      "source": 121,
+      "target": 148,
       "type": "Brothers",
       "category": "Family",
       "details": "Joseph described as 'brother of Richard Groves'; Joseph at 34 Holywell, Richard at 33 Holywell (1869-1870)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 112,
-      "target": 102,
+      "source": 123,
+      "target": 113,
       "type": "Brothers",
       "category": "Family",
       "details": "Both sons of William Matthews, all at Lower Arcade (1889)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 114,
-      "target": 24,
+      "source": 125,
+      "target": 28,
       "type": "Brothers-in-law",
       "category": "Family",
-      "details": "Hirsch married Eug\u00e9nie Marie Jamain (1889); Gauch\u00e9 married her sister Marie Ad\u00e8le Jamain (1876).",
+      "details": "Hirsch married Eugénie Marie Jamain (1889); Gauché married her sister Marie Adèle Jamain (1876).",
       "biblio_source": "Colligan (2019)"
     },
     {
-      "source": 121,
-      "target": 6,
+      "source": 135,
+      "target": 5,
       "type": "Father/son",
       "category": "Family",
       "details": "Alfred described as 'Martin Joyner's son, bookseller of Holywell-street, 19'; both at 29 St. Martin's-Lane (1860)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 142,
-      "target": 48,
+      "source": 156,
+      "target": 53,
       "type": "Father/son",
       "category": "Family",
       "details": "Eugene described as 'Stanislaus Gorsky's son'; both at 149 Edgeware-road (1899)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 144,
-      "target": 1,
+      "source": 159,
+      "target": 0,
       "type": "Uncle/nephew",
       "category": "Family",
       "details": "Inferred: T.S. Judge and A.H. Judge were brothers; Adolphus Eugene was A.H.'s son",
       "biblio_source": "Inferred"
     },
     {
-      "source": 144,
-      "target": 2,
+      "source": 159,
+      "target": 1,
       "type": "Brothers",
       "category": "Family",
       "details": "Both sons of Jasper Tomsett Judge and Mary Matthews. Adolphus Henry (b. 1831), Theophilus Sebastian (b. 1840)",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 144,
-      "target": 51,
+      "source": 159,
+      "target": 58,
       "type": "Brother-in-law/sister-in-law",
       "category": "Family",
-      "details": "T.S. Judge married Jessie Judge (nee Dugdale), who is sister of Frances Thornhill (nee Dugdale)",
+      "details": "T.S. Judge married Jessie Judge (nee Dugdale), who is sister of Frances Thornell (nee Dugdale)",
       "biblio_source": "Inferred"
     },
     {
-      "source": 144,
-      "target": 75,
+      "source": 159,
+      "target": 85,
       "type": "Brothers",
       "category": "Family",
       "details": "Both sons of Jasper Tomsett Judge and Mary Matthews",
       "biblio_source": "Inferred"
     },
     {
-      "source": 144,
-      "target": 88,
+      "source": 159,
+      "target": 99,
       "type": "Husband/wife",
       "category": "Family",
       "details": "Jessie Judge, nee Dugdale, William Dugdale's younger daughter",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 149,
-      "target": 51,
+      "source": 163,
+      "target": 58,
       "type": "Uncle/niece",
       "category": "Family",
       "details": "Thomas was brother of William Dugdale, who was father of Frances",
       "biblio_source": "Inferred"
     },
     {
-      "source": 149,
-      "target": 101,
+      "source": 163,
+      "target": 112,
       "type": "Brothers",
       "category": "Family",
       "details": "Thomas (b. 1802) and John Lambert (b. 1803) were brothers",
       "biblio_source": "Inferred"
     },
     {
-      "source": 149,
-      "target": 169,
+      "source": 163,
+      "target": 184,
       "type": "Uncle/nephew",
       "category": "Family",
       "details": "Thomas Dugdale (b. 1802) was uncle of William John Dugdale (William's son)",
       "biblio_source": "Inferred"
     },
     {
-      "source": 158,
-      "target": 157,
+      "source": 173,
+      "target": 172,
       "type": "Father/son",
       "category": "Family",
       "details": "Walter described as 'Warnforn Piper's son'; both at Musjid-road, Battersea (1887)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 159,
-      "target": 141,
+      "source": 174,
+      "target": 155,
       "type": "Husband/wife",
       "category": "Family",
       "details": "Sophia described as 'married'; both at Broad-street, St. Giles (1868)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 162,
-      "target": 51,
+      "source": 177,
+      "target": 58,
       "type": "Father/daughter",
       "category": "Family",
-      "details": "Frances (b. 1827) married John Higdon Thornhill in 1845; they ran Dugdale's shop at 5 Holywell St while he was in prison",
+      "details": "Frances (b. 1827) married John Higdon Thornell in 1845; they ran Dugdale's shop at 5 Holywell St while he was in prison",
       "biblio_source": "Perry"
     },
     {
-      "source": 162,
-      "target": 88,
+      "source": 177,
+      "target": 99,
       "type": "Father/daughter",
       "category": "Family",
       "details": "Jessie was Dugdale's younger daughter; she and T.S. Judge took over his Wych Street shop",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 162,
-      "target": 97,
+      "source": 177,
+      "target": 108,
       "type": "Father-in-law/son-in-law",
       "category": "Family",
-      "details": "Thornhill was Dugdale's son-in-law, husband of his daughter Frances",
+      "details": "Thornell was Dugdale's son-in-law, husband of his daughter Frances",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 162,
-      "target": 101,
+      "source": 177,
+      "target": 112,
       "type": "Brothers",
       "category": "Family",
       "details": "John Lambert (b. 1803) was William's (b. 1800) younger brother",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 162,
-      "target": 144,
+      "source": 177,
+      "target": 159,
       "type": "Father-in-law/son-in-law",
       "category": "Family",
       "details": "T.S. Judge married William Dugdale's younger daughter Jessie; described as 'the son in law and successor of the late Dugdale'",
       "biblio_source": "Obscenity Trials, Advertising Pornography"
     },
     {
-      "source": 162,
-      "target": 149,
+      "source": 177,
+      "target": 163,
       "type": "Brothers",
       "category": "Family",
       "details": "Thomas (b. 1802) was William's (b. 1800) younger brother",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 162,
-      "target": 169,
+      "source": 177,
+      "target": 184,
       "type": "Father/son",
       "category": "Family",
       "details": "W.J. Dugdale (b. 1830) was William Dugdale's son; at 35 Holywell Street",
       "biblio_source": "Obscenity Trials, Advertising Pornography"
     },
     {
-      "source": 166,
-      "target": 118,
+      "source": 181,
+      "target": 131,
       "type": "Husband/wife",
       "category": "Family",
       "details": "Maria described as 'W.J. Fagnoit's wife'; both at No. 1, Vinegar-yard, Drury-lane (1834-1847)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 169,
-      "target": 51,
+      "source": 184,
+      "target": 58,
       "type": "Siblings",
       "category": "Family",
       "details": "Both children of William Dugdale and Hannah Pinnell",
       "biblio_source": "Inferred"
     },
     {
-      "source": 169,
-      "target": 101,
+      "source": 184,
+      "target": 112,
       "type": "Brothers",
       "category": "Family",
       "details": "Both sons/brothers of William Dugdale",
       "biblio_source": "Inferred"
     },
     {
-      "source": 171,
-      "target": 102,
+      "source": 186,
+      "target": 113,
       "type": "Father/son",
       "category": "Family",
       "details": "William described as 'father'; John as 'son, bookseller'; all at Lower Arcade (1889)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 171,
-      "target": 112,
+      "source": 186,
+      "target": 123,
       "type": "Father/son",
       "category": "Family",
       "details": "William described as 'father, bookseller'; Joseph as 'son, bookseller'; all at Lower Arcade (1889)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 177,
-      "target": 44,
+      "source": 193,
+      "target": 49,
       "type": "Husband/wife",
       "category": "Family",
       "details": "Ellen described as 'wife of William Williams'; co-owners of 'The Novelty Stores'; both at 21 White Hart-street (1879)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 17,
-      "target": 98,
+      "source": 20,
+      "target": 109,
       "type": "Brothers (probable)",
       "category": "Family",
       "details": "Same surname, both prosecuted 1881",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 32,
-      "target": 41,
+      "source": 37,
+      "target": 46,
       "type": "Father/son (probable)",
       "category": "Family",
       "details": "Edwin Dresch Jr. prosecuted 1871; Dresch at 15 Holywell Street (1860)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 32,
-      "target": 123,
+      "source": 37,
+      "target": 137,
       "type": "Husband/wife (probable)",
       "category": "Family",
       "details": "Both at 15 Holywell Street in 1860",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 51,
-      "target": 88,
+      "source": 58,
+      "target": 99,
       "type": "Sisters",
       "category": "Family",
       "details": "Both daughters of William Dugdale and Hannah Pinnell",
       "biblio_source": "Perry (inferred)"
     },
     {
-      "source": 54,
-      "target": 162,
+      "source": 61,
+      "target": 177,
       "type": "Associate (probable)",
       "category": "Business",
       "details": "Glover possibly connected with Joseph Glover, a printer who worked for Dugdale c.1830",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 57,
-      "target": 133,
+      "source": 64,
+      "target": 147,
       "type": "Brothers (probable)",
       "category": "Family",
       "details": "Both prosecuted 1871",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 61,
-      "target": 26,
+      "source": 68,
+      "target": 30,
       "type": "Relatives (probable)",
       "category": "Family",
       "details": "Both at 38 Wych Street; George described as print seller, Charles as shopman (1880-1892)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 62,
-      "target": 73,
+      "source": 69,
+      "target": 83,
       "type": "Relatives (probable)",
       "category": "Family",
       "details": "George described as 17 years old (1844); Henry prosecuted 1843, both Edinburgh area",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 65,
-      "target": 71,
+      "source": 73,
+      "target": 81,
       "type": "Associate",
       "category": "Business",
-      "details": "Brooks at 17 1/2 Holywell Street \u2014 a subdivision of May's address at 17 Holywell Street; may have been working with May",
+      "details": "Brooks at 17 1/2 Holywell Street — a subdivision of May's address at 17 Holywell Street; may have been working with May",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 71,
-      "target": 178,
+      "source": 81,
+      "target": 194,
       "type": "Associate/partner",
       "category": "Business",
       "details": "May appears to have been partner or employee of Winn; both at Holywell Street area",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 88,
-      "target": 2,
+      "source": 99,
+      "target": 1,
       "type": "Sister-in-law/brother-in-law",
       "category": "Family",
       "details": "Jessie was wife of T.S. Judge; A.H. Judge was T.S.'s brother",
       "biblio_source": "Inferred"
     },
     {
-      "source": 88,
-      "target": 47,
+      "source": 99,
+      "target": 52,
       "type": "Sister-in-law/brother-in-law",
       "category": "Family",
       "details": "Jessie married T.S. Judge, who is brother of Eugene Alfred Judge",
       "biblio_source": "Inferred"
     },
     {
-      "source": 88,
-      "target": 97,
+      "source": 99,
+      "target": 108,
       "type": "In-laws",
       "category": "Family",
-      "details": "Jessie married T.S. Judge; her sister Frances married Thornhill; both Dugdale daughters",
+      "details": "Jessie married T.S. Judge; her sister Frances married Thornell; both Dugdale daughters",
       "biblio_source": "Inferred"
     },
     {
-      "source": 88,
-      "target": 144,
+      "source": 99,
+      "target": 159,
       "type": "Business partners",
       "category": "Business",
       "details": "Jessie appears to have run the business while T.S. Judge was in prison (1869-1871)",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 97,
-      "target": 144,
+      "source": 108,
+      "target": 159,
       "type": "Brothers-in-law",
       "category": "Business",
-      "details": "Both married daughters of William Dugdale: Thornhill married Frances, Judge married Jessie",
+      "details": "Both married daughters of William Dugdale: Thornell married Frances, Judge married Jessie",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 101,
-      "target": 97,
+      "source": 112,
+      "target": 108,
       "type": "Related by marriage",
       "category": "Business",
-      "details": "J.L. Dugdale was William's brother; Thornhill married William's daughter Frances",
+      "details": "J.L. Dugdale was William's brother; Thornell married William's daughter Frances",
       "biblio_source": "Inferred"
     },
     {
-      "source": 101,
-      "target": 144,
+      "source": 112,
+      "target": 159,
       "type": "Related by marriage",
       "category": "Business",
       "details": "J.L. Dugdale was William Dugdale's brother; T.S. Judge married William's daughter Jessie",
       "biblio_source": "Inferred"
     },
     {
-      "source": 111,
-      "target": 168,
+      "source": 122,
+      "target": 183,
       "type": "Relatives (probable)",
       "category": "Family",
       "details": "Both prosecuted 1834; Joseph 'the keeper of a stationer's shop in Baldwin's-Gardens'",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 123,
-      "target": 41,
+      "source": 137,
+      "target": 46,
       "type": "Mother/son (probable)",
       "category": "Family",
       "details": "Dresch and Mary Dresch probable spouses (1860); Edwin Dresch Jr. prosecuted 1871",
       "biblio_source": "Inferred"
     },
     {
-      "source": 124,
-      "target": 174,
+      "source": 138,
+      "target": 190,
       "type": "Relatives (probable)",
       "category": "Family",
       "details": "Same surname, both work in Holywell Street/Wych Street area (1860-1872)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 135,
-      "target": 103,
+      "source": 149,
+      "target": 114,
       "type": "Relatives (probable)",
       "category": "Family",
       "details": "Same suname; both agents in Liverpool, 1888",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 146,
-      "target": 86,
-      "type": "Employer/servant?",
-      "category": "Business",
-      "details": "Wadsworth described as 'Blacketer's servant' in news reports; both at 20 Wych Street (1847)",
+      "source": 160,
+      "target": 96,
+      "type": "Common-law husband/wife",
+      "category": "Family",
+      "details": "Both at 20 Wych Street (1847)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 146,
-      "target": 162,
+      "source": 160,
+      "target": 177,
       "type": "Brother-in-law / nephew-in-law",
       "category": "Family",
       "details": "Blacketer married Ann, daughter of William's brother Thomas; all three lived at 51 Holywell St per 1851 census",
       "biblio_source": "Perry"
     },
     {
-      "source": 162,
-      "target": 2,
+      "source": 177,
+      "target": 1,
       "type": "In-laws",
       "category": "Family",
       "details": "A.H. Judge was brother of T.S. Judge, who married Dugdale's daughter",
       "biblio_source": "Inferred"
     },
     {
-      "source": 162,
-      "target": 23,
+      "source": 177,
+      "target": 27,
       "type": "Business partners",
       "category": "Business",
       "details": "Grieves described as having 'previously been the partner of the notorious Dugdale' and 'had done the printing for such men'",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 162,
-      "target": 47,
+      "source": 177,
+      "target": 52,
       "type": "In-laws",
       "category": "Family",
       "details": "Eugene Alfred Judge was brother of T.S. Judge, who married Dugdale's daughter",
       "biblio_source": "Inferred"
     },
     {
-      "source": 162,
-      "target": 59,
+      "source": 177,
+      "target": 66,
       "type": "Associate/possible alias",
       "category": "Business",
-      "details": "Crocker may have been close associate or alias of Dugdale; sold many works Dugdale published from 199 Strand",
+      "details": "Crocker may have been close associate or alias of Dugdale; sold many works Dugdale published from 199 Strand in 1844",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 162,
-      "target": 71,
+      "source": 177,
+      "target": 81,
       "type": "Employer/associate",
       "category": "Business",
       "details": "Co-defendants in 1850; Henry May kept shop at 17 Holywell Street and was thought to be an associate/employee of Dugdale",
       "biblio_source": "Obscenity Trials, Advertising Pornography"
     },
     {
-      "source": 162,
-      "target": 83,
+      "source": 177,
+      "target": 93,
       "type": "Employer/servant",
       "category": "Business",
       "details": "Millson identified as 'Dugdale's servant'; both at 102 Old-street / 44 Wych-street (1868)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 162,
-      "target": 101,
+      "source": 177,
+      "target": 112,
       "type": "Brothers",
       "category": "Family",
       "details": "Both active 1847; John at Wych Street",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 162,
-      "target": 164,
+      "source": 177,
+      "target": 179,
       "type": "Lawyer/client",
       "category": "Business",
       "details": "Dugdale's longtime legal advisor, may also dealt in obscene material",
       "biblio_source": "Advertising Pornography, Obscenity Trials"
     },
     {
-      "source": 169,
-      "target": 97,
+      "source": 184,
+      "target": 108,
       "type": "Brothers-in-law",
       "category": "Family",
-      "details": "W.J. Dugdale was William Dugdale's son; Thornhill married William's daughter Frances",
+      "details": "W.J. Dugdale was William Dugdale's son; Thornell married William's daughter Frances",
       "biblio_source": "Inferred"
     },
     {
-      "source": 169,
-      "target": 144,
+      "source": 184,
+      "target": 159,
       "type": "Brothers-in-law",
       "category": "Family",
       "details": "W.J. Dugdale was William Dugdale's son; T.S. Judge married William's daughter Jessie",
       "biblio_source": "Inferred"
     },
     {
-      "source": 178,
-      "target": 107,
+      "source": 194,
+      "target": 118,
       "type": "Relatives (probable)",
       "category": "Family",
       "details": "Same surname; William at 34 Holywell Street (1850, 1857), John prosecuted 1867",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 7,
-      "target": 136,
+      "source": 41,
+      "target": 188,
+      "type": "Shared address",
+      "category": "Shared Address",
+      "details": "1 Vinegar yard, Brydges Street, Covent Garden (Duncombe 1822, Fagnoit 1847)",
+      "biblio_source": "Shared Address"
+    },
+    {
+      "source": 41,
+      "target": 131,
+      "type": "Shared address",
+      "category": "Shared Address",
+      "details": "1 Vinegar yard, Brydges Street, Covent Garden (Duncombe 1822, Fagnoit 1847)",
+      "biblio_source": "Shared Address"
+    },
+    {
+      "source": 6,
+      "target": 150,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "102 Wardour-street, Soho: both 1874",
@@ -2757,15 +2899,15 @@ const graphData = {
     },
     {
       "source": 9,
-      "target": 27,
+      "target": 31,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "31 Holywell Street: Andrew White (1850), Charles Perry (1870)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 0,
-      "target": 75,
+      "source": 167,
+      "target": 85,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "32 Holywell Street: Someone using the names Andrew White and John Wilson who is not William Burton (too old)  (1873), Herbert C. Judge (1875)",
@@ -2773,7 +2915,7 @@ const graphData = {
     },
     {
       "source": 9,
-      "target": 138,
+      "target": 152,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "31 Holywell Street: Andrew White (1850), Samuel Tyler (1870)",
@@ -2781,498 +2923,682 @@ const graphData = {
     },
     {
       "source": 12,
-      "target": 43,
+      "target": 48,
       "type": "Relatives (probable)",
       "category": "Shared Address",
       "details": "Both in Cambridge; lived with George Ferdinand Springmuhl von Weissenfeld and arrested together in obscenity sweep. Same surname suggests family connection (1902)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 22,
-      "target": 26,
+      "source": 26,
+      "target": 30,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "34 Holywell Street: both 1882",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 26,
-      "target": 161,
+      "source": 30,
+      "target": 176,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "34 Holywell Street: William Burton, alias Andrew White (1872, 1874), Charles Newbold (1882, 1892). Mendes suggests Burton could be William Lazenby.",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 30,
-      "target": 71,
+      "source": 34,
+      "target": 81,
       "type": "Shared address",
       "category": "Shared Address",
-      "details": "38 Holywell Street, both in 1860 \u2014 \"two shops in one house\"",
+      "details": "38 Holywell Street, both in 1860 — \"two shops in one house\"",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 32,
-      "target": 123,
+      "source": 37,
+      "target": 137,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "15 Holywell Street, both 1860",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 36,
-      "target": 132,
+      "source": 41,
+      "target": 146,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "Both had shops at 78 Long Acre",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 38,
-      "target": 156,
+      "source": 43,
+      "target": 171,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "Shared address, 1902. Printed books for George Ferdinand Springmuhl von Weissenfeld",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 47,
-      "target": 144,
-      "type": "Shared address",
-      "category": "Shared Address",
-      "details": "44 Wych Street: Eugene's family and T.S. Judge's shop",
-      "biblio_source": "Obscenity Trials"
-    },
-    {
-      "source": 50,
-      "target": 162,
+      "source": 57,
+      "target": 177,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "Danjer advertised as working out of 37 1/2 Holywell Street, a subdivision of Dugdale's shop. Likely an alias of Dugdale's or an associate's.",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 60,
-      "target": 147,
+      "source": 67,
+      "target": 161,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "40 Wych Street: Jackson (1870), Burton (1871)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 61,
-      "target": 26,
+      "source": 68,
+      "target": 30,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "38 Wych Street: both 1887",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 61,
-      "target": 28,
+      "source": 68,
+      "target": 32,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "38 Wych Street: both 1887",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 63,
-      "target": 75,
+      "source": 70,
+      "target": 85,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "32 Holywell Street area: George White (1871), H.C. Judge (1875)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 69,
-      "target": 82,
+      "source": 79,
+      "target": 92,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "68 Upper O'Connell Street: both in same location",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 71,
-      "target": 65,
+      "source": 81,
+      "target": 73,
       "type": "Shared address",
       "category": "Shared Address",
-      "details": "17 Holywell Street (May) and 17 1/2 Holywell Street (Brooks) \u2014 subdivision of same premises",
+      "details": "17 Holywell Street (May) and 17 1/2 Holywell Street (Brooks) — subdivision of same premises (1856)",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 74,
-      "target": 94,
+      "source": 84,
+      "target": 105,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "16 and 17 Pall Mall: both 1890",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 75,
-      "target": 129,
+      "source": 85,
+      "target": 143,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "32 Holywell Street: H.C. Judge (1875), Percy Smith (1892)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 81,
-      "target": 2,
+      "source": 91,
+      "target": 1,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "30 Castle Street, Leicester Square: Brewer (1863-1865) working for Judge family",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 85,
-      "target": 89,
+      "source": 95,
+      "target": 100,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "40 Gray's-inn-road (1880-1881) and 313 Gray's-inn-road (1883)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 85,
-      "target": 139,
+      "source": 95,
+      "target": 153,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "40 Gray's-inn-road (1880-1881) and 313 Gray's-inn-road (1883)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 85,
-      "target": 176,
+      "source": 95,
+      "target": 192,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "276 Strand: Jackson (1879), George (1882)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 89,
-      "target": 139,
+      "source": 100,
+      "target": 153,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "40 Gray's-inn-road (1880-1881) and 313 Gray's-inn-road (1883)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 92,
-      "target": 55,
+      "source": 103,
+      "target": 62,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "33 Holywell Street: John Day (1874), Frederick Raymond (1876)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 93,
-      "target": 36,
+      "source": 104,
+      "target": 41,
       "type": "Shared address",
       "category": "Shared Address",
-      "details": "Middle Row, Holborn: John at 10 Middle Row, Edward at 18 Middle Row \u2014 adjacent premises",
+      "details": "Middle Row, Holborn: John at 10 Middle Row, Edward at 9 Middle Row — adjacent premises",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 96,
-      "target": 124,
+      "source": 107,
+      "target": 138,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "49 Wych Street: Harrison (1864-5, 1869 - 1872, 1875), Michael Saunders (1872)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 96,
-      "target": 40,
+      "source": 107,
+      "target": 45,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "49 Wych Street: Harrison (1864-5 1869 - 1872, 1875), Dresch (1865)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 96,
-      "target": 95,
+      "source": 107,
+      "target": 106,
       "type": "Son/father",
       "category": "Family",
       "details": "Listed in electoral registers 1864-66 as the younger (located at 49 Wych street) and the elder (located at 35 Holywell Street).",
       "biblio_source": ""
     },
     {
-      "source": 96,
-      "target": 174,
+      "source": 107,
+      "target": 190,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "49 Wych Street: Harrison (1864-5, 1869-1872, 1875), Saunders (1870)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 97,
-      "target": 162,
-      "type": "Shared address",
-      "category": "Shared Address",
-      "details": "53 Holywell Street (Thornhill) near other Dugdale premises on Holywell Street",
-      "biblio_source": "Advertising Pornography"
-    },
-    {
-      "source": 110,
-      "target": 161,
+      "source": 121,
+      "target": 176,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "34 Holywell Street: Joseph Groves (1870), William Burton (1872, 1874); William Burton used Andrew White's name as an alias, or stood in for White",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 110,
-      "target": 167,
+      "source": 121,
+      "target": 182,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "34 Holywell Street: Joseph Groves (1870), William Henry Payne (1871)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 121,
-      "target": 6,
+      "source": 135,
+      "target": 5,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "29 St. Martin's-Lane, Leicester-square: both 1860",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 121,
-      "target": 104,
+      "source": 135,
+      "target": 115,
       "type": "Shared address",
       "category": "Shared Address",
-      "details": "29 St. Martin's-Lane: Joyner and Piper (1859-1860) \u2014 Piper was 'shopman' there",
+      "details": "29 St. Martin's-Lane: Joyner and Piper (1859-1860) — Piper was 'shopman'",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 125,
-      "target": 36,
+      "source": 139,
+      "target": 41,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "Novello and Co took over Duncombe's 78 Long Acre address",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 128,
-      "target": 144,
+      "source": 142,
+      "target": 159,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "2 Holywell-street: Paul de Paris (1857-1869), then T.S. Judge (1869-1870)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 132,
-      "target": 90,
-      "type": "Shared address",
-      "category": "Shared Address",
-      "details": "Both connected to Bond Street addresses; Jackson at 130 New Bond Street, claimed to be successor of Brookes (1841-2)",
+      "source": 146,
+      "target": 101,
+      "type": "Other",
+      "category": "Other",
+      "details": "Both connected to Bond Street addresses; Jackson at 130 New Bond Street, claimed to be successor of Brookes (1841-2), at 9 Bond Street",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 132,
-      "target": 125,
+      "source": 146,
+      "target": 139,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "Ralph Jackson (Jackson and Co) took over Novello and Co's 78 Long Acre address",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 134,
-      "target": 55,
+      "source": 148,
+      "target": 62,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "33 Holywell Street: Richard Groves (1869), Frederick Raymond (1876)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 134,
-      "target": 92,
+      "source": 148,
+      "target": 103,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "33 Holywell Street: Richard Groves (1869), John Day (1874)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 138,
-      "target": 27,
+      "source": 152,
+      "target": 31,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "31 Holywell Street: both 1870",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 142,
-      "target": 48,
+      "source": 156,
+      "target": 53,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "149 Edgeware-road: both 1899",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 144,
-      "target": 88,
+      "source": 159,
+      "target": 99,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "44 Wych Street: T.S. Judge and Jessie Judge (nee Dugdale)",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 145,
-      "target": 55,
+      "source": 159,
+      "target": 62,
       "type": "Shared address",
       "category": "Shared Address",
-      "details": "33 Holywell Street: T.S. Judge? (1877), Frederick Raymond (1876)",
+      "details": "33 Holywell Street: T.S. Judge [uncertain] (1877), Frederick Raymond (1876)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 146,
-      "target": 39,
+      "source": 160,
+      "target": 44,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "20 Wych Street: Blacketer (1847), Morris (1857)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 146,
-      "target": 86,
+      "source": 160,
+      "target": 96,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "20 Wych Street: both 1847",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 153,
-      "target": 24,
+      "source": 168,
+      "target": 28,
       "type": "Shared address",
       "category": "Shared Address",
-      "details": "Prince's-buildings, Coventry-street: Hubert (1887), then Hirsch (1898) \u2014 same shop, with Subtil in between",
+      "details": "Prince's-buildings, Coventry-street: Hubert (1887), then Hirsch (1898) — same shop, with Subtil in between",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 153,
-      "target": 140,
+      "source": 168,
+      "target": 154,
       "type": "Shared address",
       "category": "Shared Address",
-      "details": "Prince's-buildings, Coventry-street: Hubert (1887), then Subtil (1890) \u2014 same shop",
+      "details": "Prince's-buildings, Coventry-street: Hubert (1887), then Subtil (1890) — same shop",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 158,
-      "target": 157,
+      "source": 173,
+      "target": 172,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "Musjid-road, Battersea: both 1887",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 161,
-      "target": 22,
+      "source": 176,
+      "target": 26,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "34 Holywell Street: William Burton (1872, 1874), Charles Caslake (1882); William Burton used Andrew White's name as an alias, or stood in for him",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 162,
-      "target": 83,
+      "source": 177,
+      "target": 93,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "44 Wych Street and 102 Old-street: both 1868",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 162,
-      "target": 101,
-      "type": "Shared address",
-      "category": "Shared Address",
-      "details": "Both at Holywell Street: William at 16, 37, etc.; John Lambert at 50 Holywell Street",
-      "biblio_source": "Obscenity Trials, Advertising Pornography"
-    },
-    {
-      "source": 162,
-      "target": 144,
+      "source": 177,
+      "target": 159,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "44 Wych Street: Dugdale (1868), then Judge (1869) as successor",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 169,
-      "target": 95,
+      "source": 184,
+      "target": 106,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "35 Holywell Street (Harrison 1865-1873, Dugdale 1849-1850)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 162,
-      "target": 169,
+      "source": 177,
+      "target": 184,
       "type": "Shared address",
       "category": "Shared Address",
-      "details": "William at 37 Holywell Street; W.J. Dugdale at 35 Holywell Street \u2014 adjacent premises",
+      "details": "William at 37 Holywell Street; W.J. Dugdale at 35 Holywell Street — adjacent premises",
       "biblio_source": "Obscenity Trials, Advertising Pornography"
     },
     {
-      "source": 165,
-      "target": 42,
+      "source": 180,
+      "target": 47,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "195 Wellington-terrace, Waterloo-road: both tried 1858",
       "biblio_source": "Obscenity Trials, Advertising Pornography"
     },
     {
-      "source": 166,
-      "target": 118,
+      "source": 181,
+      "target": 131,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "No. 1, Vinegar-yard, Drury-lane: both 1847",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 171,
-      "target": 112,
+      "source": 186,
+      "target": 123,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "Lower Arcade: all three Matthews family members (1889)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 174,
-      "target": 124,
+      "source": 190,
+      "target": 138,
       "type": "Shared address",
       "category": "Shared Address",
-      "details": "49 Wych Street / Holywell Street: William (1870), Michael (1872)",
+      "details": "49 Wych Street / Holywell Street [reports conflict]: William (1870), Michael (1872)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 175,
-      "target": 163,
+      "source": 191,
+      "target": 178,
       "type": "Shared address",
       "category": "Shared Address",
-      "details": "Both at 183 Fleet Street \u2014 Strange printed Paul Pry there in 1857; same as earlier occupant",
+      "details": "Both at 183 Fleet Street — Strange printed the periodical Paul Pry there in 1857",
       "biblio_source": "Advertising Pornography"
     },
     {
-      "source": 178,
-      "target": 26,
+      "source": 194,
+      "target": 30,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "34 Holywell Street: William Winn (1850s), Charles Newbold (1882, 1892)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 178,
-      "target": 110,
+      "source": 194,
+      "target": 121,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "34 Holywell Street: William Winn (1850, 1857), Joseph Groves (1870)",
       "biblio_source": "Obscenity Trials"
     },
     {
-      "source": 178,
-      "target": 161,
+      "source": 194,
+      "target": 176,
       "type": "Shared address",
       "category": "Shared Address",
       "details": "34 Holywell Street: William Winn (1850, 1857), William Burton (as Andrew White) (1872, 1874). Mendes suggests that William Burton is William Lazenby",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 46,
+      "target": 182,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together (1871)",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 182,
+      "target": 187,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together (1871)",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 46,
+      "target": 187,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together (1871)",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 46,
+      "target": 70,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together (1871)",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 70,
+      "target": 187,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together (1871)",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 82,
+      "target": 187,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together (1871)",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 82,
+      "target": 70,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together (1871)",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 82,
+      "target": 46,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together (1871)",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 82,
+      "target": 182,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together (1871)",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 182,
+      "target": 70,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together (1871)",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 36,
+      "target": 127,
+      "type": "Brothers in law",
+      "category": "Family",
+      "details": "Lerendu coloured and stored engravings for Delarue, a commissionaire (1846)",
+      "biblio_source": "BNF Retronews 001"
+    },
+    {
+      "source": 134,
+      "target": 71,
+      "type": "Wife/husband",
+      "category": "Family",
+      "details": "Despréaux and Goin were married",
+      "biblio_source": "Catalogue des Ecris"
+    },
+    {
+      "source": 128,
+      "target": 134,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Deshayes, a printseller, and Despréaux, the printseller Goin's wife, were charged with selling obscene writings, drawings, engravings (1846)",
+      "biblio_source": "BNF Retronews 002"
+    },
+    {
+      "source": 158,
+      "target": 56,
+      "type": "Business connection",
+      "category": "Business",
+      "details": "Terry, a bookseller at the Palais-Royal, was reported to the public prosecutor as selling obscene books that he kept stored at the home of the widow Fatout, residing at the cloître St-Honoré (1843)",
+      "biblio_source": "BNF Retronews 003"
+    },
+    {
+      "source": 128,
+      "target": 18,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together 10 February 1852.",
+      "biblio_source": "Drujon"
+    },
+    {
+      "source": 78,
+      "target": 97,
+      "type": "Business partners",
+      "category": "Business",
+      "details": "Ran bookshop at 27 Galerie du Roi, Brussels; published ~120 books",
+      "biblio_source": "Colligan (2024)"
+    },
+    {
+      "source": 78,
+      "target": 54,
+      "type": "Business partners",
+      "category": "Business",
+      "details": "Co-published books in Paris and Brussels; shared bookshop at 7 passage Jouffroy, Paris; Lalouette died 1889",
+      "biblio_source": "Colligan (2024)"
+    },
+    {
+      "source": 78,
+      "target": 97,
+      "type": "Romantic partners",
+      "category": "Family",
+      "details": "Ran bookshop at 27 Galerie du Roi, Brussels; published ~120 books",
+      "biblio_source": "Colligan (2024)"
+    },
+    {
+      "source": 78,
+      "target": 54,
+      "type": "Romantic partners",
+      "category": "Family",
+      "details": "Co-published books in Paris and Brussels; shared bookshop at 7 passage Jouffroy, Paris; Lalouette died 1889",
+      "biblio_source": "Colligan (2024)"
+    },
+    {
+      "source": 36,
+      "target": 19,
+      "type": "Business partners",
+      "category": "Business",
+      "details": "Becquet, lithographer, worked and was tried with Delarue (1840)",
+      "biblio_source": ""
+    },
+    {
+      "source": 76,
+      "target": 14,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together Cour d'assises de la Siene, 12 December 1838",
+      "biblio_source": "Catalogue des Ecris"
+    },
+    {
+      "source": 14,
+      "target": 22,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together Cour d'assises de la Siene, 12 December 1838",
+      "biblio_source": "Catalogue des Ecris"
+    },
+    {
+      "source": 22,
+      "target": 76,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Tried together Cour d'assises de la Siene, 12 December 1838",
+      "biblio_source": "Catalogue des Ecris"
+    },
+    {
+      "source": 22,
+      "target": 22,
+      "type": "Relatives (inferred)",
+      "category": "Family",
+      "details": "Same surname;Tried together Cour d'assises de la Siene, 12 December 1838",
+      "biblio_source": "Catalogue des Ecris"
+    },
+    {
+      "source": 94,
+      "target": 160,
+      "type": "Other",
+      "category": "Other",
+      "details": "Spoke for Blacketer at his 1847 trial with Jane Wadsworth",
+      "biblio_source": "Obscenity Trials"
+    },
+    {
+      "source": 7,
+      "target": 75,
+      "type": "Co-defendants",
+      "category": "Co-defendants",
+      "details": "Taylor was described as Nichols's clerk (1890)",
       "biblio_source": "Obscenity Trials"
     }
   ]
@@ -3284,19 +3610,108 @@ const catColors = {
   'Shared Address': '#D44720', 'Other': '#4A6A5C'
 };
 
-const nodeColorScale = d3.scaleOrdinal()
-  .domain(['Family', 'Business', 'Co-defendants', 'Shared Address', 'Other'])
-  .range(['#F0DDB4', '#78574D', '#E9BB3E', '#D44720', '#4A6A5C']);
+// ========== BETWEENNESS CENTRALITY (Brandes' algorithm) ==========
+function computeBetweenness(nodes, links) {
+  const n = nodes.length;
+  const idToIdx = new Map();
+  nodes.forEach((node, i) => idToIdx.set(node.id, i));
 
-// Determine primary category for each node
-graphData.nodes.forEach(n => {
-  const linkCats = graphData.links
-    .filter(l => l.source === n.id || l.target === n.id || (l.source && l.source.id === n.id) || (l.target && l.target.id === n.id))
-    .map(l => l.category);
-  const catCount = {};
-  linkCats.forEach(c => catCount[c] = (catCount[c] || 0) + 1);
-  n.primaryCat = Object.entries(catCount).sort((a, b) => b[1] - a[1])[0]?.[0] || 'Other';
+  // Build adjacency list
+  const adjList = Array.from({length: n}, () => []);
+  links.forEach(l => {
+    const s = typeof l.source === 'object' ? l.source.id : l.source;
+    const t = typeof l.target === 'object' ? l.target.id : l.target;
+    const si = idToIdx.get(s), ti = idToIdx.get(t);
+    if (si !== undefined && ti !== undefined) {
+      adjList[si].push(ti);
+      adjList[ti].push(si);
+    }
+  });
+
+  const CB = new Float64Array(n);
+
+  for (let s = 0; s < n; s++) {
+    const S = []; // stack
+    const P = Array.from({length: n}, () => []);
+    const sigma = new Float64Array(n);
+    sigma[s] = 1;
+    const d = new Int32Array(n).fill(-1);
+    d[s] = 0;
+    const Q = [s];
+    let qi = 0;
+
+    while (qi < Q.length) {
+      const v = Q[qi++];
+      S.push(v);
+      for (const w of adjList[v]) {
+        if (d[w] < 0) { Q.push(w); d[w] = d[v] + 1; }
+        if (d[w] === d[v] + 1) { sigma[w] += sigma[v]; P[w].push(v); }
+      }
+    }
+
+    const delta = new Float64Array(n);
+    while (S.length) {
+      const w = S.pop();
+      for (const v of P[w]) {
+        delta[v] += (sigma[v] / sigma[w]) * (1 + delta[w]);
+      }
+      if (w !== s) CB[w] += delta[w];
+    }
+  }
+
+  // Normalize: divide by (n-1)(n-2)/2 for undirected
+  const norm = (n - 1) * (n - 2) / 2;
+  if (norm > 0) {
+    for (let i = 0; i < n; i++) CB[i] /= norm;
+  }
+
+  nodes.forEach((node, i) => { node.centrality = CB[i]; });
+}
+
+computeBetweenness(graphData.nodes, graphData.links);
+
+// Log top centrality nodes for reference
+const topCentrality = [...graphData.nodes].sort((a,b) => b.centrality - a.centrality).slice(0, 10);
+console.log('Top 10 by betweenness centrality:', topCentrality.map(n => `${n.name}: ${n.centrality.toFixed(4)}`));
+
+// ========== EXTRACT YEARS FROM LINKS ==========
+const yearRegex = /\b(1[789]\d{2})\b/g;
+graphData.links.forEach(l => {
+  const text = [l.type || '', l.details || '', l.biblio_source || ''].join(' ');
+  const years = [...text.matchAll(yearRegex)].map(m => parseInt(m[1]));
+  if (years.length > 0) {
+    l.minYear = Math.min(...years);
+    l.maxYear = Math.max(...years);
+  } else {
+    l.minYear = null;
+    l.maxYear = null;
+  }
 });
+
+// ========== TIMELINE STATE ==========
+const YEAR_MIN = 1800, YEAR_MAX = 1910;
+let filterYearMin = YEAR_MIN;
+let filterYearMax = YEAR_MAX;
+let timelineActive = false; // false = all periods (undated links shown)
+
+// Determine primary category for each node (will be recomputed on filter)
+function computePrimaryCats(categories) {
+  graphData.nodes.forEach(n => {
+    const nid = n.id;
+    const linkCats = graphData.links
+      .filter(l => {
+        const sid = typeof l.source === 'object' ? l.source.id : l.source;
+        const tid = typeof l.target === 'object' ? l.target.id : l.target;
+        return (sid === nid || tid === nid) && categories.has(l.category);
+      })
+      .map(l => l.category);
+    const catCount = {};
+    linkCats.forEach(c => catCount[c] = (catCount[c] || 0) + 1);
+    n.primaryCat = Object.entries(catCount).sort((a, b) => b[1] - a[1])[0]?.[0] || 'Other';
+  });
+}
+
+computePrimaryCats(new Set(['Family', 'Business', 'Co-defendants', 'Shared Address', 'Other']));
 
 const container = document.getElementById('graph-container');
 const width = container.clientWidth;
@@ -3315,7 +3730,12 @@ document.getElementById('zoom-out').onclick = () => svg.transition().call(zoom.s
 document.getElementById('zoom-reset').onclick = () => svg.transition().call(zoom.transform, d3.zoomIdentity.translate(width/2, height/2).scale(0.9));
 
 // ========== CONCENTRIC LAYOUT (most connected at centre) ==========
-function nodeRadius(d) { return Math.max(4, Math.min(28, 3 + d.connections * 1.8)); }
+// Node radius based on betweenness centrality
+const maxCentrality = Math.max(...graphData.nodes.map(n => n.centrality), 0.001);
+function nodeRadius(d) {
+  const centralityNorm = d.centrality / maxCentrality; // 0..1
+  return Math.max(8, Math.min(34, 8 + Math.sqrt(centralityNorm) * 26));
+}
 
 // Sort nodes by connections (descending)
 const sorted = [...graphData.nodes].sort((a, b) => b.connections - a.connections);
@@ -3464,7 +3884,7 @@ node.on('click', (e, d) => {
 node.on('mouseover', (e, d) => {
   if (selectedNode) return;
   const tooltip = document.getElementById('tooltip');
-  tooltip.innerHTML = `<div class="tt-name">${d.name}</div><div class="tt-info">${d.connections} connection${d.connections > 1 ? 's' : ''}</div>`;
+  tooltip.innerHTML = `<div class="tt-name">${d.name}</div><div class="tt-info">${d.connections} connection${d.connections > 1 ? 's' : ''} · Centrality: ${d.centrality.toFixed(3)}</div>`;
   tooltip.style.opacity = 1;
   tooltip.style.left = (e.clientX - 340 + 12) + 'px';
   tooltip.style.top = (e.clientY - 10) + 'px';
@@ -3541,7 +3961,7 @@ function showNodeInfo(d) {
   const sources = [...new Set(d.sources.split(', '))].join(', ');
 
   let html = `<div class="info-title">${d.name}</div>`;
-  html += `<div class="info-subtitle">${connections.length} connection${connections.length > 1 ? 's' : ''} · Sources: ${sources}</div>`;
+  html += `<div class="info-subtitle">${connections.length} connection${connections.length > 1 ? 's' : ''} · Centrality: ${d.centrality.toFixed(3)} · Sources: ${sources}</div>`;
 
   const byCat = {};
   connections.forEach(l => {
@@ -3685,12 +4105,23 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
+function linkPassesFilters(l) {
+  // Category filter
+  if (!activeCategories.has(l.category)) return false;
+  // Timeline filter
+  if (timelineActive) {
+    if (l.minYear === null) return false; // undated links hidden when filtering
+    if (l.maxYear < filterYearMin || l.minYear > filterYearMax) return false;
+  }
+  return true;
+}
+
 function applyFilters() {
-  link.style('display', l => activeCategories.has(l.category) ? null : 'none');
+  link.style('display', l => linkPassesFilters(l) ? null : 'none');
 
   const visibleNodeIds = new Set();
   graphData.links.forEach(l => {
-    if (activeCategories.has(l.category)) {
+    if (linkPassesFilters(l)) {
       const sid = typeof l.source === 'object' ? l.source.id : l.source;
       const tid = typeof l.target === 'object' ? l.target.id : l.target;
       visibleNodeIds.add(sid);
@@ -3699,7 +4130,105 @@ function applyFilters() {
   });
 
   node.style('display', d => visibleNodeIds.has(d.id) ? null : 'none');
+
+  // Recompute primary categories based on active filters and recolour nodes
+  graphData.nodes.forEach(n => {
+    const nid = n.id;
+    const visibleLinkCats = graphData.links
+      .filter(l => {
+        const sid = typeof l.source === 'object' ? l.source.id : l.source;
+        const tid = typeof l.target === 'object' ? l.target.id : l.target;
+        return (sid === nid || tid === nid) && linkPassesFilters(l);
+      })
+      .map(l => l.category);
+    const catCount = {};
+    visibleLinkCats.forEach(c => catCount[c] = (catCount[c] || 0) + 1);
+    n.primaryCat = Object.entries(catCount).sort((a, b) => b[1] - a[1])[0]?.[0] || 'Other';
+  });
+  node.selectAll('circle').attr('fill', d => catColors[d.primaryCat] || '#4A6A5C');
+
+  // Update stats
+  const visibleLinks = graphData.links.filter(l => linkPassesFilters(l)).length;
+  const suffix = timelineActive ? ` · ${filterYearMin}–${filterYearMax}` : '';
+  document.getElementById('stats').innerHTML = `${visibleNodeIds.size} nodes · ${visibleLinks} edges${suffix} · Scroll to zoom · Drag to pan`;
 }
+
+// ========== DUAL-HANDLE TIMELINE SLIDER ==========
+const sliderContainer = document.getElementById('range-slider-container');
+const rangeFill = document.getElementById('range-fill');
+const thumbMin = document.getElementById('thumb-min');
+const thumbMax = document.getElementById('thumb-max');
+const timelineLabel = document.getElementById('timeline-label');
+const timelineReset = document.getElementById('timeline-reset');
+
+function yearToPercent(year) { return ((year - YEAR_MIN) / (YEAR_MAX - YEAR_MIN)) * 100; }
+function percentToYear(pct) {
+  const raw = YEAR_MIN + (pct / 100) * (YEAR_MAX - YEAR_MIN);
+  return Math.round(raw / 5) * 5; // snap to nearest 5 years
+}
+
+function updateSliderUI() {
+  const pMin = yearToPercent(filterYearMin);
+  const pMax = yearToPercent(filterYearMax);
+  thumbMin.style.left = pMin + '%';
+  thumbMax.style.left = pMax + '%';
+  rangeFill.style.left = pMin + '%';
+  rangeFill.style.width = (pMax - pMin) + '%';
+
+  timelineActive = !(filterYearMin === YEAR_MIN && filterYearMax === YEAR_MAX);
+  if (timelineActive) {
+    timelineLabel.innerHTML = `${filterYearMin}–${filterYearMax} <span id="timeline-reset" style="font-size:9px;color:#872a0f;cursor:pointer;text-decoration:underline;font-weight:400">reset</span>`;
+    timelineLabel.querySelector('#timeline-reset').addEventListener('click', () => {
+      filterYearMin = YEAR_MIN;
+      filterYearMax = YEAR_MAX;
+      updateSliderUI();
+      applyFilters();
+    });
+  } else {
+    timelineLabel.innerHTML = `All periods (${YEAR_MIN}–${YEAR_MAX})`;
+  }
+}
+
+function initThumbDrag(thumbEl, isMin) {
+  let dragging = false;
+
+  function onPointerDown(e) {
+    dragging = true;
+    e.preventDefault();
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+  }
+
+  function onPointerMove(e) {
+    if (!dragging) return;
+    const rect = sliderContainer.getBoundingClientRect();
+    let pct = ((e.clientX - rect.left) / rect.width) * 100;
+    pct = Math.max(0, Math.min(100, pct));
+    let year = percentToYear(pct);
+
+    if (isMin) {
+      year = Math.min(year, filterYearMax - 5);
+      filterYearMin = Math.max(YEAR_MIN, year);
+    } else {
+      year = Math.max(year, filterYearMin + 5);
+      filterYearMax = Math.min(YEAR_MAX, year);
+    }
+    updateSliderUI();
+    applyFilters();
+  }
+
+  function onPointerUp() {
+    dragging = false;
+    document.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('pointerup', onPointerUp);
+  }
+
+  thumbEl.addEventListener('pointerdown', onPointerDown);
+}
+
+initThumbDrag(thumbMin, true);
+initThumbDrag(thumbMax, false);
+updateSliderUI();
 
 // ========== STATS ==========
 document.getElementById('header-stats').textContent = `${graphData.nodes.length} individuals · ${graphData.links.length} connections`;
