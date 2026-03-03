@@ -1,9 +1,68 @@
-Network Summary,
-Total connections,273
-Total unique people,195
-Connections by Category,
-Business,87
-Co-defendants,41
-Family,78
-Other,3
-Shared Address,64
+Metric,Value
+Total Individuals,205
+Total Connections,306
+Connections: Business,88
+Connections: Family,83
+Connections: Shared Address,90
+Connections: Co-defendants,42
+Connections: Other,3
+Communities (Louvain),59
+Community 1 size,20 (hub: William Dugdale)
+Community 2 size,16 (hub: Charles Hirsch)
+Community 3 size,9 (hub: William Henry Payne)
+Community 4 size,8 (hub: Edward Avery)
+Community 5 size,6 (hub: Michael Saunders)
+Community 6 size,5 (hub: Edwin Dresch Jr.)
+Community 7 size,5 (hub: Thomas Blacketer)
+Community 8 size,5 (hub: Edward Duncombe)
+Community 9 size,5 (hub: Richard Groves)
+Community 10 size,5 (hub: Jane Jackson)
+Community 11 size,4 (hub: Francois Van Crombrugge)
+Community 12 size,4 (hub: Harry Sidney Nichols)
+Community 13 size,4 (hub: Allan Laidlaw)
+Community 14 size,4 (hub: George White)
+Community 15 size,4 (hub: Charles Carrington)
+Community 16 size,3 (hub: Martin Joyner)
+Community 17 size,3 (hub: Bertrand Porterié)
+Community 18 size,3 (hub: Constantin Delarue)
+Community 19 size,3 (hub: Henry May)
+Community 20 size,3 (hub: Henriette Doucé)
+Community 21 size,3 (hub: George Cannon)
+Community 22 size,3 (hub: Herbert Constantine Judge)
+Community 23 size,3 (hub: Maria Fagnoit)
+Community 24 size,3 (hub: William Lazenby)
+Community 25 size,3 (hub: Ralph Jackson)
+Community 26 size,3 (hub: John James Ascham)
+Community 27 size,3 (hub: Joseph Matthews)
+Community 28 size,3 (hub: Joseph de Matteo)
+Community 29 size,2 (hub: Alfred Kingston)
+Community 30 size,2 (hub: Ann Aitken)
+Community 31 size,2 (hub: Anna Sinclair)
+Community 32 size,2 (hub: Anthony Edward Dyer White)
+Community 33 size,2 (hub: Louis-Victor Deshayes)
+Community 34 size,2 (hub: Benjamin Hulles)
+Community 35 size,2 (hub: Emile Kapp)
+Community 36 size,2 (hub: Charles Walker Clarke)
+Community 37 size,2 (hub: Dresch)
+Community 38 size,2 (hub: Mary Elliot)
+Community 39 size,2 (hub: Frederick William Howe)
+Community 40 size,2 (hub: Ellen Bennett Williams)
+Community 41 size,2 (hub: Eugene Gorsky)
+Community 42 size,2 (hub: Eugénie Marie Jamain)
+Community 43 size,2 (hub: Fatout)
+Community 44 size,2 (hub: Frederick Glover?)
+Community 45 size,2 (hub: Richard Brash)
+Community 46 size,2 (hub: Thomas Burton)
+Community 47 size,2 (hub: George Robinson)
+Community 48 size,"2 (hub: Marie-Gabrielle Despréaux, femme Goin)"
+Community 49 size,2 (hub: Henry Beresford)
+Community 50 size,2 (hub: Henry Clarke)
+Community 51 size,2 (hub: Henry Scarborough)
+Community 52 size,2 (hub: Hijman Binger)
+Community 53 size,2 (hub: John Murray)
+Community 54 size,2 (hub: Joseph Green)
+Community 55 size,2 (hub: Joseph Jenkinson)
+Community 56 size,2 (hub: Roeloffzen & Hubner)
+Community 57 size,2 (hub: Sophia Dukes)
+Community 58 size,2 (hub: Walter Warnforn Piper)
+Community 59 size,2 (hub: William Edwards)
